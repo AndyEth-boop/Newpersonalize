@@ -1,6 +1,6 @@
-"use client"
+"use client";
 
-import { useRef } from "react"
+import { useRef } from "react";
 import {
   Chart as ChartJS,
   CategoryScale,
@@ -13,8 +13,8 @@ import {
   Legend,
   ArcElement,
   RadialLinearScale,
-} from "chart.js"
-import { Line, Bar, Doughnut, Pie, Radar } from "react-chartjs-2"
+} from "chart.js";
+import { Line, Bar, Doughnut, Pie, Radar } from "react-chartjs-2";
 
 ChartJS.register(
   CategoryScale,
@@ -26,11 +26,11 @@ ChartJS.register(
   Tooltip,
   Legend,
   ArcElement,
-  RadialLinearScale,
-)
+  RadialLinearScale
+);
 
 const Chart = ({ type, data, options, className = "" }) => {
-  const chartRef = useRef()
+  const chartRef = useRef();
 
   const defaultOptions = {
     responsive: true,
@@ -41,6 +41,11 @@ const Chart = ({ type, data, options, className = "" }) => {
         labels: {
           usePointStyle: true,
           padding: 20,
+          font: {
+            family: "Inter",
+            size: 12,
+          },
+          color: "#6B7280",
         },
       },
       tooltip: {
@@ -49,6 +54,17 @@ const Chart = ({ type, data, options, className = "" }) => {
         bodyColor: "white",
         borderColor: "rgba(255, 255, 255, 0.1)",
         borderWidth: 1,
+        cornerRadius: 12,
+        padding: 12,
+        titleFont: {
+          family: "Inter",
+          size: 14,
+          weight: "600",
+        },
+        bodyFont: {
+          family: "Inter",
+          size: 13,
+        },
       },
     },
     scales:
@@ -56,19 +72,35 @@ const Chart = ({ type, data, options, className = "" }) => {
         ? {
             x: {
               grid: {
-                color: "rgba(0, 0, 0, 0.1)",
+                color: "rgba(0, 0, 0, 0.05)",
+                drawBorder: false,
+              },
+              ticks: {
+                font: {
+                  family: "Inter",
+                  size: 12,
+                },
+                color: "#6B7280",
               },
             },
             y: {
               grid: {
-                color: "rgba(0, 0, 0, 0.1)",
+                color: "rgba(0, 0, 0, 0.05)",
+                drawBorder: false,
+              },
+              ticks: {
+                font: {
+                  family: "Inter",
+                  size: 12,
+                },
+                color: "#6B7280",
               },
               beginAtZero: true,
             },
           }
         : undefined,
     ...options,
-  }
+  };
 
   const ChartComponent = {
     line: Line,
@@ -76,17 +108,19 @@ const Chart = ({ type, data, options, className = "" }) => {
     doughnut: Doughnut,
     pie: Pie,
     radar: Radar,
-  }[type]
+  }[type];
 
   if (!ChartComponent) {
-    return <div>Unsupported chart type: {type}</div>
+    return <div>Unsupported chart type: {type}</div>;
   }
 
   return (
-    <div className={`relative h-80 ${className}`}>
-      <ChartComponent ref={chartRef} data={data} options={defaultOptions} />
+    <div className={`chart-container ${className}`}>
+      <div className="relative h-80">
+        <ChartComponent ref={chartRef} data={data} options={defaultOptions} />
+      </div>
     </div>
-  )
-}
+  );
+};
 
-export default Chart
+export default Chart;
