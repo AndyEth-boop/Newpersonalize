@@ -1,4 +1,3 @@
-"use client";
 import { Link, useLocation } from "react-router-dom";
 import {
   House,
@@ -12,10 +11,11 @@ import {
   ChartLine,
   X,
   Sparkle,
+  SignOut,
 } from "@phosphor-icons/react";
 import clsx from "clsx";
 
-const Sidebar = ({ isOpen, onClose }) => {
+const Sidebar = ({ isOpen, onClose, onLogout }) => {
   const location = useLocation();
 
   const navigation = [
@@ -63,18 +63,20 @@ const Sidebar = ({ isOpen, onClose }) => {
       {/* Sidebar */}
       <div
         className={clsx(
-          "fixed inset-y-0 left-0 z-50 w-72 glass-card transform transition-transform duration-300 ease-in-out lg:translate-x-0 lg:static lg:inset-0 border-r-0 rounded-r-3xl lg:rounded-none",
+          "fixed inset-y-0 left-0 z-50 w-72 bg-white dark:bg-gray-800 border-r border-gray-200 dark:border-gray-700 transform transition-transform duration-300 ease-in-out lg:translate-x-0 lg:static lg:inset-0",
           isOpen ? "translate-x-0" : "-translate-x-full"
         )}
       >
         {/* Header */}
-        <div className="flex items-center justify-between p-6 border-b border-white/10 dark:border-gray-700/30">
+        <div className="flex items-center justify-between p-6 border-b border-gray-200 dark:border-gray-700">
           <div className="flex items-center">
             <div className="w-10 h-10 bg-gradient-to-r from-blue-500 to-purple-600 rounded-xl flex items-center justify-center shadow-lg">
               <Sparkle className="w-6 h-6 text-white" />
             </div>
             <div className="ml-3">
-              <h1 className="text-xl font-bold gradient-text">SocialSync</h1>
+              <h1 className="text-xl font-bold bg-gradient-to-r from-blue-600 to-purple-600 bg-clip-text text-transparent">
+                SocialSync
+              </h1>
               <p className="text-xs text-gray-500 dark:text-gray-400">
                 Analytics Hub
               </p>
@@ -82,7 +84,7 @@ const Sidebar = ({ isOpen, onClose }) => {
           </div>
           <button
             onClick={onClose}
-            className="lg:hidden p-2 rounded-xl hover:bg-white/60 dark:hover:bg-gray-700/60 transition-colors"
+            className="lg:hidden p-2 rounded-xl hover:bg-gray-100 dark:hover:bg-gray-700 transition-colors"
           >
             <X className="w-5 h-5" />
           </button>
@@ -106,8 +108,8 @@ const Sidebar = ({ isOpen, onClose }) => {
                         to={item.href}
                         onClick={onClose}
                         className={clsx(
-                          "sidebar-link group",
-                          isActive && "active"
+                          "flex items-center px-4 py-3 rounded-xl text-gray-600 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-700 hover:text-blue-600 dark:hover:text-blue-400 transition-all duration-200 group",
+                          isActive && "bg-blue-50 dark:bg-blue-900/20 text-blue-600 dark:text-blue-400"
                         )}
                       >
                         <Icon className="w-5 h-5 mr-3 transition-transform group-hover:scale-110" />
@@ -125,8 +127,8 @@ const Sidebar = ({ isOpen, onClose }) => {
         </nav>
 
         {/* Footer */}
-        <div className="p-6 border-t border-white/10 dark:border-gray-700/30">
-          <div className="glass-card rounded-xl p-4 bg-gradient-to-r from-blue-500/10 to-purple-500/10">
+        <div className="p-6 border-t border-gray-200 dark:border-gray-700 space-y-4">
+          <div className="bg-gradient-to-r from-blue-50 to-purple-50 dark:from-blue-900/20 dark:to-purple-900/20 rounded-xl p-4 border border-blue-100 dark:border-blue-800">
             <div className="flex items-center mb-2">
               <Sparkle className="w-5 h-5 text-blue-500 mr-2" />
               <span className="font-medium text-sm">Upgrade to Pro</span>
@@ -134,10 +136,18 @@ const Sidebar = ({ isOpen, onClose }) => {
             <p className="text-xs text-gray-600 dark:text-gray-400 mb-3">
               Unlock advanced analytics and unlimited reports
             </p>
-            <button className="w-full btn-primary text-sm py-2">
+            <button className="w-full bg-gradient-to-r from-blue-600 to-purple-600 hover:from-blue-700 hover:to-purple-700 text-white font-medium py-2 px-4 rounded-lg transition-all duration-200 text-sm">
               Upgrade Now
             </button>
           </div>
+          
+          <button
+            onClick={onLogout}
+            className="flex items-center w-full px-4 py-2 text-sm text-gray-600 dark:text-gray-400 hover:bg-gray-100 dark:hover:bg-gray-700 rounded-lg transition-colors"
+          >
+            <SignOut className="w-4 h-4 mr-3" />
+            Sign out
+          </button>
         </div>
       </div>
     </>

@@ -1,20 +1,16 @@
-"use client";
-
 import { useState } from "react";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import {
   Eye,
   EyeSlash,
-  GoogleLogo,
-  FacebookLogo,
-  TwitterLogo,
   Sparkle,
   Check,
 } from "@phosphor-icons/react";
 
-const SignUp = () => {
+const SignUp = ({ onSignUp }) => {
   const [showPassword, setShowPassword] = useState(false);
   const [showConfirmPassword, setShowConfirmPassword] = useState(false);
+  const [isLoading, setIsLoading] = useState(false);
   const [formData, setFormData] = useState({
     firstName: "",
     lastName: "",
@@ -23,11 +19,53 @@ const SignUp = () => {
     confirmPassword: "",
     agreeToTerms: false,
   });
+  const navigate = useNavigate();
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
-    // Handle sign up logic
-    console.log("Sign up:", formData);
+    
+    if (formData.password !== formData.confirmPassword) {
+      alert("Passwords don't match!");
+      return;
+    }
+
+    if (!formData.agreeToTerms) {
+      alert("Please agree to the terms and conditions!");
+      return;
+    }
+
+    setIsLoading(true);
+
+    // Simulate API call
+    setTimeout(() => {
+      const userData = {
+        email: formData.email,
+        firstName: formData.firstName,
+        lastName: formData.lastName,
+        role: "Marketing Manager"
+      };
+      
+      onSignUp(userData);
+      setIsLoading(false);
+      navigate('/');
+    }, 1000);
+  };
+
+  const handleSocialSignUp = (provider) => {
+    setIsLoading(true);
+    // Simulate social signup
+    setTimeout(() => {
+      const userData = {
+        email: `user@${provider}.com`,
+        firstName: "Sarah",
+        lastName: "Johnson",
+        role: "Marketing Manager"
+      };
+      
+      onSignUp(userData);
+      setIsLoading(false);
+      navigate('/');
+    }, 1000);
   };
 
   const features = [
@@ -40,7 +78,7 @@ const SignUp = () => {
   ];
 
   return (
-    <div className="min-h-screen flex">
+    <div className="min-h-screen flex bg-gray-50 dark:bg-gray-900">
       {/* Left side - Image */}
       <div className="hidden lg:flex lg:w-1/2 relative">
         <div className="absolute inset-0 bg-gradient-to-br from-purple-600/90 to-pink-600/90 z-10"></div>
@@ -80,7 +118,7 @@ const SignUp = () => {
               <div className="w-12 h-12 bg-gradient-to-r from-blue-500 to-purple-600 rounded-xl flex items-center justify-center">
                 <Sparkle className="w-6 h-6 text-white" />
               </div>
-              <span className="ml-3 text-2xl font-bold gradient-text">
+              <span className="ml-3 text-2xl font-bold bg-gradient-to-r from-blue-600 to-purple-600 bg-clip-text text-transparent">
                 SocialSync
               </span>
             </div>
@@ -94,21 +132,30 @@ const SignUp = () => {
 
           {/* Social Login */}
           <div className="space-y-3 mb-6">
-            <button className="w-full flex items-center justify-center px-4 py-3 border border-gray-300 dark:border-gray-600 rounded-xl hover:bg-gray-50 dark:hover:bg-gray-700 transition-colors">
-              <GoogleLogo className="w-5 h-5 mr-3" />
+            <button 
+              onClick={() => handleSocialSignUp('google')}
+              disabled={isLoading}
+              className="w-full flex items-center justify-center px-4 py-3 border border-gray-300 dark:border-gray-600 rounded-xl hover:bg-gray-50 dark:hover:bg-gray-700 transition-colors disabled:opacity-50"
+            >
               <span className="text-gray-700 dark:text-gray-300">
                 Continue with Google
               </span>
             </button>
             <div className="grid grid-cols-2 gap-3">
-              <button className="flex items-center justify-center px-4 py-3 border border-gray-300 dark:border-gray-600 rounded-xl hover:bg-gray-50 dark:hover:bg-gray-700 transition-colors">
-                <FacebookLogo className="w-5 h-5 mr-2" />
+              <button 
+                onClick={() => handleSocialSignUp('facebook')}
+                disabled={isLoading}
+                className="flex items-center justify-center px-4 py-3 border border-gray-300 dark:border-gray-600 rounded-xl hover:bg-gray-50 dark:hover:bg-gray-700 transition-colors disabled:opacity-50"
+              >
                 <span className="text-gray-700 dark:text-gray-300">
                   Facebook
                 </span>
               </button>
-              <button className="flex items-center justify-center px-4 py-3 border border-gray-300 dark:border-gray-600 rounded-xl hover:bg-gray-50 dark:hover:bg-gray-700 transition-colors">
-                <TwitterLogo className="w-5 h-5 mr-2" />
+              <button 
+                onClick={() => handleSocialSignUp('twitter')}
+                disabled={isLoading}
+                className="flex items-center justify-center px-4 py-3 border border-gray-300 dark:border-gray-600 rounded-xl hover:bg-gray-50 dark:hover:bg-gray-700 transition-colors disabled:opacity-50"
+              >
                 <span className="text-gray-700 dark:text-gray-300">
                   Twitter
                 </span>
@@ -121,7 +168,7 @@ const SignUp = () => {
               <div className="w-full border-t border-gray-300 dark:border-gray-600"></div>
             </div>
             <div className="relative flex justify-center text-sm">
-              <span className="px-2 bg-white dark:bg-gray-900 text-gray-500">
+              <span className="px-2 bg-gray-50 dark:bg-gray-900 text-gray-500">
                 Or continue with email
               </span>
             </div>
@@ -140,8 +187,9 @@ const SignUp = () => {
                   onChange={(e) =>
                     setFormData({ ...formData, firstName: e.target.value })
                   }
-                  className="input"
+                  className="w-full px-4 py-3 border border-gray-300 dark:border-gray-600 rounded-xl focus:outline-none focus:ring-2 focus:ring-blue-500 dark:bg-gray-800 dark:text-white"
                   placeholder="John"
+                  disabled={isLoading}
                 />
               </div>
               <div>
@@ -155,8 +203,9 @@ const SignUp = () => {
                   onChange={(e) =>
                     setFormData({ ...formData, lastName: e.target.value })
                   }
-                  className="input"
+                  className="w-full px-4 py-3 border border-gray-300 dark:border-gray-600 rounded-xl focus:outline-none focus:ring-2 focus:ring-blue-500 dark:bg-gray-800 dark:text-white"
                   placeholder="Doe"
+                  disabled={isLoading}
                 />
               </div>
             </div>
@@ -172,8 +221,9 @@ const SignUp = () => {
                 onChange={(e) =>
                   setFormData({ ...formData, email: e.target.value })
                 }
-                className="input"
+                className="w-full px-4 py-3 border border-gray-300 dark:border-gray-600 rounded-xl focus:outline-none focus:ring-2 focus:ring-blue-500 dark:bg-gray-800 dark:text-white"
                 placeholder="john@example.com"
+                disabled={isLoading}
               />
             </div>
 
@@ -189,13 +239,15 @@ const SignUp = () => {
                   onChange={(e) =>
                     setFormData({ ...formData, password: e.target.value })
                   }
-                  className="input pr-12"
+                  className="w-full px-4 py-3 pr-12 border border-gray-300 dark:border-gray-600 rounded-xl focus:outline-none focus:ring-2 focus:ring-blue-500 dark:bg-gray-800 dark:text-white"
                   placeholder="Create a strong password"
+                  disabled={isLoading}
                 />
                 <button
                   type="button"
                   onClick={() => setShowPassword(!showPassword)}
                   className="absolute inset-y-0 right-0 pr-3 flex items-center"
+                  disabled={isLoading}
                 >
                   {showPassword ? (
                     <EyeSlash className="w-5 h-5 text-gray-400" />
@@ -221,13 +273,15 @@ const SignUp = () => {
                       confirmPassword: e.target.value,
                     })
                   }
-                  className="input pr-12"
+                  className="w-full px-4 py-3 pr-12 border border-gray-300 dark:border-gray-600 rounded-xl focus:outline-none focus:ring-2 focus:ring-blue-500 dark:bg-gray-800 dark:text-white"
                   placeholder="Confirm your password"
+                  disabled={isLoading}
                 />
                 <button
                   type="button"
                   onClick={() => setShowConfirmPassword(!showConfirmPassword)}
                   className="absolute inset-y-0 right-0 pr-3 flex items-center"
+                  disabled={isLoading}
                 >
                   {showConfirmPassword ? (
                     <EyeSlash className="w-5 h-5 text-gray-400" />
@@ -248,6 +302,7 @@ const SignUp = () => {
                     setFormData({ ...formData, agreeToTerms: e.target.checked })
                   }
                   className="rounded border-gray-300 text-blue-600 focus:ring-blue-500 mt-1"
+                  disabled={isLoading}
                 />
                 <span className="ml-2 text-sm text-gray-600 dark:text-gray-400">
                   I agree to the{" "}
@@ -268,8 +323,19 @@ const SignUp = () => {
               </label>
             </div>
 
-            <button type="submit" className="w-full btn-primary">
-              Create account
+            <button 
+              type="submit" 
+              disabled={isLoading}
+              className="w-full bg-gradient-to-r from-blue-600 to-purple-600 hover:from-blue-700 hover:to-purple-700 text-white font-medium py-3 px-6 rounded-xl transition-all duration-200 shadow-lg hover:shadow-xl transform hover:-translate-y-0.5 disabled:opacity-50 disabled:cursor-not-allowed disabled:transform-none"
+            >
+              {isLoading ? (
+                <div className="flex items-center justify-center">
+                  <div className="animate-spin rounded-full h-5 w-5 border-b-2 border-white mr-2"></div>
+                  Creating account...
+                </div>
+              ) : (
+                'Create account'
+              )}
             </button>
           </form>
 
