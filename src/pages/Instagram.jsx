@@ -9,6 +9,15 @@ import {
   Calendar,
   Play,
 } from "@phosphor-icons/react";
+import {
+  Card,
+  CardBody,
+  Typography,
+  Button,
+  Select,
+  Option,
+  Chip,
+} from "@material-tailwind/react";
 import StatCard from "../components/StatCard";
 import Chart from "../components/Chart";
 
@@ -23,8 +32,7 @@ const Instagram = () => {
       change: "156 this week",
       changeType: "positive",
       icon: Users,
-      iconColor:
-        "bg-purple-100 text-purple-600 dark:bg-purple-900/20 dark:text-purple-400",
+      iconColor: "bg-purple-500",
     },
     {
       title: "Post Reach",
@@ -32,8 +40,7 @@ const Instagram = () => {
       change: "8% from last week",
       changeType: "positive",
       icon: Eye,
-      iconColor:
-        "bg-pink-100 text-pink-600 dark:bg-pink-900/20 dark:text-pink-400",
+      iconColor: "bg-pink-500",
     },
     {
       title: "Engagement Rate",
@@ -41,7 +48,7 @@ const Instagram = () => {
       change: "1.2% from last week",
       changeType: "positive",
       icon: Heart,
-      iconColor: "bg-red-100 text-red-600 dark:bg-red-900/20 dark:text-red-400",
+      iconColor: "bg-red-500",
     },
     {
       title: "Story Views",
@@ -49,8 +56,7 @@ const Instagram = () => {
       change: "15% from last week",
       changeType: "positive",
       icon: Play,
-      iconColor:
-        "bg-orange-100 text-orange-600 dark:bg-orange-900/20 dark:text-orange-400",
+      iconColor: "bg-orange-500",
     },
   ];
 
@@ -134,36 +140,34 @@ const Instagram = () => {
   ];
 
   return (
-    <div className="space-y-6">
+    <div className="space-y-8">
       {/* Header */}
-      <div className="flex justify-between items-center">
-        <div className="flex items-center">
-          <div className="w-10 h-10 bg-gradient-to-r from-purple-500 to-pink-500 rounded-lg flex items-center justify-center mr-4">
+      <div className="flex flex-col lg:flex-row lg:justify-between lg:items-center gap-4">
+        <div className="flex items-center space-x-4">
+          <div className="w-12 h-12 bg-gradient-to-r from-purple-500 to-pink-500 rounded-xl flex items-center justify-center shadow-lg">
             <InstagramLogo className="w-6 h-6 text-white" />
           </div>
           <div>
-            <h1 className="text-2xl font-bold text-gray-900 dark:text-white">
+            <Typography variant="h4" className="text-gray-900 font-bold">
               Instagram Analytics
-            </h1>
-            <p className="text-gray-600 dark:text-gray-400">
+            </Typography>
+            <Typography variant="small" className="text-gray-600">
               Monitor your Instagram performance and audience engagement
-            </p>
+            </Typography>
           </div>
         </div>
-        <div className="flex items-center space-x-3">
-          <select
-            value={timeRange}
-            onChange={(e) => setTimeRange(e.target.value)}
-            className="input"
-          >
-            <option value="7">Last 7 days</option>
-            <option value="30">Last 30 days</option>
-            <option value="90">Last 90 days</option>
-          </select>
-          <button className="btn-primary flex items-center">
-            <Calendar className="w-4 h-4 mr-2" />
+
+        <div className="flex flex-col sm:flex-row gap-3">
+          <Select value={timeRange} onChange={setTimeRange}>
+            <Option value="7">Last 7 days</Option>
+            <Option value="30">Last 30 days</Option>
+            <Option value="90">Last 90 days</Option>
+          </Select>
+
+          <Button className="bg-gradient-to-r from-purple-600 to-pink-600 rounded-lg flex items-center gap-2">
+            <Calendar className="w-4 h-4" />
             Custom Range
-          </button>
+          </Button>
         </div>
       </div>
 
@@ -176,218 +180,249 @@ const Instagram = () => {
 
       {/* Charts Section */}
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
-        <div className="card p-6">
-          <div className="flex justify-between items-center mb-4">
-            <h4 className="font-semibold text-gray-900 dark:text-white">
-              Engagement by Content Type
-            </h4>
-            <select className="input text-sm">
-              <option>Last 7 days</option>
-              <option selected>Last 30 days</option>
-              <option>Last 90 days</option>
-            </select>
-          </div>
-          <Chart
-            type="radar"
-            data={engagementByContentData}
-            options={{
-              scales: {
-                r: {
-                  angleLines: { display: true },
-                  suggestedMin: 0,
-                  suggestedMax: 100,
-                },
-              },
-            }}
-          />
-        </div>
+        <Card className="shadow-sm border border-gray-100">
+          <CardBody className="p-6">
+            <div className="flex justify-between items-center mb-6">
+              <Typography variant="h6" className="text-gray-900 font-semibold">
+                Engagement by Content Type
+              </Typography>
+              <Select label="Time Period" size="sm">
+                <Option>Last 7 days</Option>
+                <Option>Last 30 days</Option>
+                <Option>Last 90 days</Option>
+              </Select>
+            </div>
+            <div className="relative h-80">
+              <Chart
+                type="radar"
+                data={engagementByContentData}
+                options={{
+                  scales: {
+                    r: {
+                      angleLines: { display: true },
+                      suggestedMin: 0,
+                      suggestedMax: 100,
+                    },
+                  },
+                }}
+              />
+            </div>
+          </CardBody>
+        </Card>
 
-        <div className="card p-6">
-          <div className="flex justify-between items-center mb-4">
-            <h4 className="font-semibold text-gray-900 dark:text-white">
-              Story Performance
-            </h4>
-            <select className="input text-sm">
-              <option>Last 7 days</option>
-              <option selected>Last 30 days</option>
-              <option>Last 90 days</option>
-            </select>
-          </div>
-          <Chart
-            type="line"
-            data={storyPerformanceData}
-            options={{
-              scales: {
-                y: {
-                  type: "linear",
-                  display: true,
-                  position: "left",
-                  title: { display: true, text: "Impressions" },
-                },
-                y1: {
-                  type: "linear",
-                  display: true,
-                  position: "right",
-                  title: { display: true, text: "Completion Rate (%)" },
-                  min: 0,
-                  max: 100,
-                  grid: { drawOnChartArea: false },
-                },
-              },
-            }}
-          />
-          <div className="mt-4 p-3 bg-purple-50 dark:bg-purple-900/20 rounded-lg">
-            <p className="text-sm text-purple-800 dark:text-purple-300">
-              💡 Recommendation: Post stories in the evening (6-9 PM) for higher
-              completion rates
-            </p>
-          </div>
-        </div>
+        <Card className="shadow-sm border border-gray-100">
+          <CardBody className="p-6">
+            <div className="flex justify-between items-center mb-6">
+              <Typography variant="h6" className="text-gray-900 font-semibold">
+                Story Performance
+              </Typography>
+              <Select label="Time Period" size="sm">
+                <Option>Last 7 days</Option>
+                <Option>Last 30 days</Option>
+                <Option>Last 90 days</Option>
+              </Select>
+            </div>
+            <div className="relative h-80">
+              <Chart
+                type="line"
+                data={storyPerformanceData}
+                options={{
+                  scales: {
+                    y: {
+                      type: "linear",
+                      display: true,
+                      position: "left",
+                      title: { display: true, text: "Impressions" },
+                    },
+                    y1: {
+                      type: "linear",
+                      display: true,
+                      position: "right",
+                      title: { display: true, text: "Completion Rate (%)" },
+                      min: 0,
+                      max: 100,
+                      grid: { drawOnChartArea: false },
+                    },
+                  },
+                }}
+              />
+            </div>
+            <Card className="mt-4 bg-purple-50 border border-purple-200">
+              <CardBody className="p-4">
+                <Typography variant="small" className="text-purple-800">
+                  💡 Recommendation: Post stories in the evening (6-9 PM) for
+                  higher completion rates
+                </Typography>
+              </CardBody>
+            </Card>
+          </CardBody>
+        </Card>
       </div>
 
       {/* Hashtag Performance and Recent Posts */}
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
-        <div className="card p-6">
-          <div className="flex justify-between items-center mb-4">
-            <h4 className="font-semibold text-gray-900 dark:text-white">
-              Top Performing Hashtags
-            </h4>
-            <div className="flex items-center text-sm text-gray-500 dark:text-gray-400">
-              <span className="w-2 h-2 bg-purple-500 rounded-full mr-2"></span>
-              Engagement
-            </div>
-          </div>
-          <div className="space-y-4">
-            {hashtagPerformance.map((hashtag, index) => (
-              <div key={index}>
-                <div className="flex justify-between mb-2">
-                  <span className="text-sm font-medium text-gray-700 dark:text-gray-300">
-                    {hashtag.tag}
-                  </span>
-                  <span className="text-sm font-medium text-gray-700 dark:text-gray-300">
-                    {hashtag.engagements} engagements
-                  </span>
-                </div>
-                <div className="w-full bg-gray-200 dark:bg-gray-700 rounded-full h-2">
-                  <div
-                    className="bg-purple-600 h-2 rounded-full transition-all duration-300"
-                    style={{ width: `${hashtag.percentage}%` }}
-                  ></div>
-                </div>
+        <Card className="shadow-sm border border-gray-100">
+          <CardBody className="p-6">
+            <div className="flex justify-between items-center mb-6">
+              <Typography variant="h6" className="text-gray-900 font-semibold">
+                Top Performing Hashtags
+              </Typography>
+              <div className="flex items-center space-x-2">
+                <div className="w-3 h-3 bg-purple-500 rounded-full"></div>
+                <Typography variant="small" className="text-gray-600">
+                  Engagement
+                </Typography>
               </div>
-            ))}
-          </div>
-        </div>
-
-        <div className="card p-6">
-          <div className="flex justify-between items-center mb-4">
-            <h4 className="font-semibold text-gray-900 dark:text-white">
-              Recent Posts
-            </h4>
-            <div className="flex space-x-2">
-              <button
-                onClick={() => setContentFilter("all")}
-                className={`text-xs px-2 py-1 rounded ${
-                  contentFilter === "all"
-                    ? "bg-purple-100 dark:bg-purple-900/20 text-purple-600 dark:text-purple-400"
-                    : "bg-gray-100 dark:bg-gray-700 hover:bg-gray-200 dark:hover:bg-gray-600"
-                }`}
-              >
-                All
-              </button>
-              <button
-                onClick={() => setContentFilter("photos")}
-                className={`text-xs px-2 py-1 rounded ${
-                  contentFilter === "photos"
-                    ? "bg-purple-100 dark:bg-purple-900/20 text-purple-600 dark:text-purple-400"
-                    : "bg-gray-100 dark:bg-gray-700 hover:bg-gray-200 dark:hover:bg-gray-600"
-                }`}
-              >
-                Photos
-              </button>
-              <button
-                onClick={() => setContentFilter("videos")}
-                className={`text-xs px-2 py-1 rounded ${
-                  contentFilter === "videos"
-                    ? "bg-purple-100 dark:bg-purple-900/20 text-purple-600 dark:text-purple-400"
-                    : "bg-gray-100 dark:bg-gray-700 hover:bg-gray-200 dark:hover:bg-gray-600"
-                }`}
-              >
-                Videos
-              </button>
             </div>
-          </div>
-          <div className="grid grid-cols-2 gap-4">
-            {recentPosts.map((post, index) => (
-              <div key={index} className="relative group">
-                <img
-                  src={post.image || "/placeholder.svg"}
-                  alt="Instagram post"
-                  className="w-full h-32 object-cover rounded-lg"
-                />
-                <div className="absolute inset-0 bg-black bg-opacity-50 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity rounded-lg">
-                  <div className="text-white text-center">
-                    <p className="font-bold flex items-center justify-center">
-                      <Heart className="w-4 h-4 mr-1" />
-                      {post.likes.toLocaleString()}
-                    </p>
-                    <p className="text-sm">{post.comments} Comments</p>
+            <div className="space-y-4">
+              {hashtagPerformance.map((hashtag, index) => (
+                <div key={index} className="space-y-2">
+                  <div className="flex justify-between">
+                    <Typography
+                      variant="small"
+                      className="font-medium text-gray-700"
+                    >
+                      {hashtag.tag}
+                    </Typography>
+                    <Typography
+                      variant="small"
+                      className="font-medium text-gray-700"
+                    >
+                      {hashtag.engagements} engagements
+                    </Typography>
+                  </div>
+                  <div className="w-full bg-gray-200 rounded-full h-2">
+                    <div
+                      className="bg-purple-600 h-2 rounded-full transition-all duration-300"
+                      style={{ width: `${hashtag.percentage}%` }}
+                    ></div>
                   </div>
                 </div>
+              ))}
+            </div>
+          </CardBody>
+        </Card>
+
+        <Card className="shadow-sm border border-gray-100">
+          <CardBody className="p-6">
+            <div className="flex justify-between items-center mb-6">
+              <Typography variant="h6" className="text-gray-900 font-semibold">
+                Recent Posts
+              </Typography>
+              <div className="flex space-x-2">
+                <Chip
+                  value="All"
+                  size="sm"
+                  className={
+                    contentFilter === "all"
+                      ? "bg-purple-50 text-purple-600"
+                      : ""
+                  }
+                  onClick={() => setContentFilter("all")}
+                />
+                <Chip
+                  value="Photos"
+                  size="sm"
+                  variant="outlined"
+                  onClick={() => setContentFilter("photos")}
+                />
+                <Chip
+                  value="Videos"
+                  size="sm"
+                  variant="outlined"
+                  onClick={() => setContentFilter("videos")}
+                />
               </div>
-            ))}
-          </div>
-        </div>
+            </div>
+            <div className="grid grid-cols-2 gap-4">
+              {recentPosts.map((post, index) => (
+                <div key={index} className="relative group cursor-pointer">
+                  <img
+                    src={post.image || "/placeholder.svg"}
+                    alt="Instagram post"
+                    className="w-full h-32 object-cover rounded-xl"
+                  />
+                  <div className="absolute inset-0 bg-black bg-opacity-50 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity rounded-xl">
+                    <div className="text-white text-center">
+                      <div className="flex items-center justify-center mb-1">
+                        <Heart className="w-4 h-4 mr-1" />
+                        <Typography variant="small" className="font-bold">
+                          {post.likes.toLocaleString()}
+                        </Typography>
+                      </div>
+                      <Typography variant="small">
+                        {post.comments} Comments
+                      </Typography>
+                    </div>
+                  </div>
+                </div>
+              ))}
+            </div>
+          </CardBody>
+        </Card>
       </div>
 
       {/* Audience Insights */}
-      <div className="card p-6">
-        <h4 className="font-semibold text-gray-900 dark:text-white mb-6">
-          Audience Insights
-        </h4>
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-          <div className="text-center">
-            <div className="w-16 h-16 bg-gradient-to-r from-purple-500 to-pink-500 rounded-full flex items-center justify-center mx-auto mb-3">
-              <Users className="w-8 h-8 text-white" />
+      <Card className="shadow-sm border border-gray-100">
+        <CardBody className="p-6">
+          <Typography variant="h6" className="text-gray-900 font-semibold mb-6">
+            Audience Insights
+          </Typography>
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
+            <div className="text-center">
+              <div className="w-16 h-16 bg-gradient-to-r from-purple-500 to-pink-500 rounded-full flex items-center justify-center mx-auto mb-4">
+                <Users className="w-8 h-8 text-white" />
+              </div>
+              <Typography
+                variant="h6"
+                className="text-gray-900 font-medium mb-2"
+              >
+                Top Age Group
+              </Typography>
+              <Typography variant="h4" className="text-gray-900 font-bold">
+                25-34
+              </Typography>
+              <Typography variant="small" className="text-gray-600">
+                35% of followers
+              </Typography>
             </div>
-            <h5 className="font-medium text-gray-900 dark:text-white mb-2">
-              Top Age Group
-            </h5>
-            <p className="text-2xl font-bold text-gray-900 dark:text-white">
-              25-34
-            </p>
-            <p className="text-sm text-gray-500 dark:text-gray-400">
-              35% of followers
-            </p>
-          </div>
-          <div className="text-center">
-            <div className="w-16 h-16 bg-gradient-to-r from-blue-500 to-purple-500 rounded-full flex items-center justify-center mx-auto mb-3">
-              <Eye className="w-8 h-8 text-white" />
+            <div className="text-center">
+              <div className="w-16 h-16 bg-gradient-to-r from-blue-500 to-purple-500 rounded-full flex items-center justify-center mx-auto mb-4">
+                <Eye className="w-8 h-8 text-white" />
+              </div>
+              <Typography
+                variant="h6"
+                className="text-gray-900 font-medium mb-2"
+              >
+                Peak Activity
+              </Typography>
+              <Typography variant="h4" className="text-gray-900 font-bold">
+                7-9 PM
+              </Typography>
+              <Typography variant="small" className="text-gray-600">
+                Weekdays
+              </Typography>
             </div>
-            <h5 className="font-medium text-gray-900 dark:text-white mb-2">
-              Peak Activity
-            </h5>
-            <p className="text-2xl font-bold text-gray-900 dark:text-white">
-              7-9 PM
-            </p>
-            <p className="text-sm text-gray-500 dark:text-gray-400">Weekdays</p>
-          </div>
-          <div className="text-center">
-            <div className="w-16 h-16 bg-gradient-to-r from-pink-500 to-red-500 rounded-full flex items-center justify-center mx-auto mb-3">
-              <Heart className="w-8 h-8 text-white" />
+            <div className="text-center">
+              <div className="w-16 h-16 bg-gradient-to-r from-pink-500 to-red-500 rounded-full flex items-center justify-center mx-auto mb-4">
+                <Heart className="w-8 h-8 text-white" />
+              </div>
+              <Typography
+                variant="h6"
+                className="text-gray-900 font-medium mb-2"
+              >
+                Avg. Engagement
+              </Typography>
+              <Typography variant="h4" className="text-gray-900 font-bold">
+                6.8%
+              </Typography>
+              <Typography variant="small" className="text-gray-600">
+                Above industry avg
+              </Typography>
             </div>
-            <h5 className="font-medium text-gray-900 dark:text-white mb-2">
-              Avg. Engagement
-            </h5>
-            <p className="text-2xl font-bold text-gray-900 dark:text-white">
-              6.8%
-            </p>
-            <p className="text-sm text-gray-500 dark:text-gray-400">
-              Above industry avg
-            </p>
           </div>
-        </div>
-      </div>
+        </CardBody>
+      </Card>
     </div>
   );
 };

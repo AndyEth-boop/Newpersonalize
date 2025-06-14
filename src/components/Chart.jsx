@@ -15,6 +15,7 @@ import {
   RadialLinearScale,
 } from "chart.js";
 import { Line, Bar, Doughnut, Pie, Radar } from "react-chartjs-2";
+import { Card, CardBody } from "@material-tailwind/react";
 
 ChartJS.register(
   CategoryScale,
@@ -29,7 +30,7 @@ ChartJS.register(
   RadialLinearScale
 );
 
-const Chart = ({ type, data, options, className = "" }) => {
+const Chart = ({ type, data, options, className = "", title }) => {
   const chartRef = useRef();
 
   const defaultOptions = {
@@ -115,11 +116,13 @@ const Chart = ({ type, data, options, className = "" }) => {
   }
 
   return (
-    <div className={`chart-container ${className}`}>
-      <div className="relative h-80">
-        <ChartComponent ref={chartRef} data={data} options={defaultOptions} />
-      </div>
-    </div>
+    <Card className={`shadow-sm border border-gray-100 ${className}`}>
+      <CardBody className="p-6">
+        <div className="relative h-80">
+          <ChartComponent ref={chartRef} data={data} options={defaultOptions} />
+        </div>
+      </CardBody>
+    </Card>
   );
 };
 

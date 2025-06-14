@@ -4,10 +4,21 @@ import {
   Clock,
   Envelope,
   ArrowUpRight,
+  Plus,
+  ArrowsCounterClockwiseIcon,
+  FacebookLogo,
+  InstagramLogo,
+  XLogo,
 } from "@phosphor-icons/react";
+import {
+  Card,
+  CardBody,
+  Typography,
+  Button,
+  Chip,
+} from "@material-tailwind/react";
 import StatCard from "../components/StatCard";
 import Chart from "../components/Chart";
-
 
 const Overview = () => {
   // Chart data
@@ -50,6 +61,7 @@ const Overview = () => {
         backgroundColor: "rgba(99, 102, 241, 0.7)",
         borderColor: "rgba(99, 102, 241, 1)",
         borderWidth: 1,
+        borderRadius: 8,
       },
     ],
   };
@@ -70,6 +82,41 @@ const Overview = () => {
       },
     ],
   };
+
+  const platforms = [
+    {
+      name: "Facebook",
+      icon: <FacebookLogo size={32} color="#3B82F6" weight="fill" />,
+      description:
+        "Track post performance, engagement trends, and follower growth.",
+      color: "blue",
+      connected: false,
+    },
+    {
+      name: "Instagram",
+      icon: <InstagramLogo size={32} color="#df4e4e" weight="fill" />,
+      description:
+        "Analyze post reach, story views, and optimal posting times. Don't miss",
+      color: "purple",
+      connected: false,
+    },
+    {
+      name: "Twitter",
+      icon: <XLogo size={32} color="#0a0a0a" weight="fill" />,
+      description:
+        "Monitor tweet engagement, follower changes, and hashtag performance.",
+      color: "blue",
+      connected: false,
+    },
+    {
+      name: "Gmail",
+      icon: "📧",
+      description:
+        "Analyze email patterns, frequent senders, and response times.",
+      color: "red",
+      connected: false,
+    },
+  ];
 
   const topPosts = [
     {
@@ -92,74 +139,85 @@ const Overview = () => {
     },
   ];
 
-  return (
-    <div className="space-y-6">
-      {/* Account Connection Section */}
-      <div className="card p-6">
-        <div className="flex justify-between items-center mb-6">
-          <h3 className="text-lg font-semibold text-gray-900 dark:text-white">
-            Connect Your Accounts
-          </h3>
-          <button className="text-primary-600 hover:text-primary-700 dark:text-primary-400 dark:hover:text-primary-300 flex items-center">
-            <ArrowUpRight className="w-4 h-4 mr-1" />
-            Refresh Data
-          </button>
-        </div>
+  const recommendations = [
+    {
+      title: "Posting Strategy",
+      description:
+        "Based on your audience activity, we recommend increasing your posting frequency to 3-4 times per week on Facebook and 5-7 times per week on Instagram.",
+      priority: "MEDIUM",
+      color: "blue",
+      icon: "📅",
+    },
+    {
+      title: "Optimal Posting Times",
+      description:
+        "Your audience is most active between 1:30-3:30 PM on weekdays. Schedule 70% of your posts during this window for maximum engagement.",
+      priority: "HIGH",
+      color: "purple",
+      icon: "⏰",
+    },
+    {
+      title: "Email Management",
+      description:
+        "87 unread emails detected. Consider setting up filters for frequent senders and allocating specific times for email management.",
+      priority: "HIGH",
+      color: "red",
+      icon: "📧",
+    },
+  ];
 
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
-          {[
-            {
-              name: "Facebook",
-              icon: "📘",
-              description:
-                "Track post performance, engagement trends, and follower growth.",
-              color: "bg-blue-600 hover:bg-blue-700",
-            },
-            {
-              name: "Instagram",
-              icon: "📷",
-              description:
-                "Analyze post reach, story views, and optimal posting times.",
-              color:
-                "bg-gradient-to-r from-purple-500 to-pink-500 hover:from-purple-600 hover:to-pink-600",
-            },
-            {
-              name: "Twitter",
-              icon: "🐦",
-              description:
-                "Monitor tweet engagement, follower changes, and hashtag performance.",
-              color: "bg-blue-400 hover:bg-blue-500",
-            },
-            {
-              name: "Gmail",
-              icon: "📧",
-              description:
-                "Analyze email patterns, frequent senders, and response times.",
-              color: "bg-red-500 hover:bg-red-600",
-            },
-          ].map((platform) => (
-            <div
-              key={platform.name}
-              className="bg-gray-50 dark:bg-gray-700 rounded-lg p-4 border border-gray-200 dark:border-gray-600"
-            >
-              <div className="flex items-center mb-3">
-                <span className="text-2xl mr-3">{platform.icon}</span>
-                <h4 className="font-medium text-gray-900 dark:text-white">
-                  {platform.name}
-                </h4>
-              </div>
-              <p className="text-gray-600 dark:text-gray-400 text-sm mb-4">
-                {platform.description}
-              </p>
-              <button
-                className={`w-full text-white py-2 px-4 rounded-lg transition ${platform.color}`}
-              >
-                Connect Account
-              </button>
+  return (
+    <div className="space-y-8">
+      {/* Account Connection Section */}
+      <Card className="shadow-sm border border-gray-100">
+        <CardBody className="p-6">
+          <div className="flex justify-between items-center mb-6">
+            <div>
+              <Typography variant="h5" className="text-gray-900 font-bold">
+                Connect Your Accounts
+              </Typography>
+              <Typography variant="small" className="text-gray-600 mt-1">
+                Start tracking your social media performance
+              </Typography>
             </div>
-          ))}
-        </div>
-      </div>
+            <Button
+              variant="text"
+              className="flex items-center gap-2 text-blue-600 rounded-lg"
+            >
+              <ArrowsCounterClockwiseIcon className="w-4 h-4" />
+              Refresh Data
+            </Button>
+          </div>
+
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+            {platforms.map((platform) => (
+              <Card
+                key={platform.name}
+                className="border border-gray-200 hover:shadow-md transition-all duration-300"
+              >
+                <CardBody className="p-6">
+                  <div className="flex items-center mb-4">
+                    <span className="text-2xl mr-3">{platform.icon}</span>
+                    <Typography variant="h6" className="text-gray-900">
+                      {platform.name}
+                    </Typography>
+                  </div>
+                  <Typography variant="small" className="text-gray-600 mb-4">
+                    {platform.description}
+                  </Typography>
+                  <Button
+                    className={`flex align-middle text-center justify-center w-full rounded-lg p-1 bg-${platform.color}-600 hover:bg-${platform.color}-700`}
+                    size="sm"
+                  >
+                    <Plus className="w-4 h-4 mr-2" />
+                    Connect
+                  </Button>
+                </CardBody>
+              </Card>
+            ))}
+          </div>
+        </CardBody>
+      </Card>
 
       {/* Stats Cards */}
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
@@ -169,7 +227,7 @@ const Overview = () => {
           change="12.5% from last week"
           changeType="positive"
           icon={Users}
-          iconColor="bg-blue-100 text-blue-600 dark:bg-blue-900/20 dark:text-blue-400"
+          iconColor="bg-blue-500"
         />
         <StatCard
           title="Engagement Rate"
@@ -177,14 +235,14 @@ const Overview = () => {
           change="0.6% from last week"
           changeType="positive"
           icon={Heart}
-          iconColor="bg-purple-100 text-purple-600 dark:bg-purple-900/20 dark:text-purple-400"
+          iconColor="bg-purple-500"
         />
         <StatCard
           title="Optimal Post Time"
           value="2:30 PM"
           change="Based on last 30 days"
           icon={Clock}
-          iconColor="bg-green-100 text-green-600 dark:bg-green-900/20 dark:text-green-400"
+          iconColor="bg-green-500"
         />
         <StatCard
           title="Emails Received"
@@ -192,195 +250,192 @@ const Overview = () => {
           change="8.3% from last week"
           changeType="negative"
           icon={Envelope}
-          iconColor="bg-red-100 text-red-600 dark:bg-red-900/20 dark:text-red-400"
+          iconColor="bg-red-500"
         />
       </div>
 
       {/* Charts Section */}
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
-        <div className="card p-6">
-          <div className="flex justify-between items-center mb-4">
-            <h4 className="font-semibold text-gray-900 dark:text-white">
-              Engagement Trends
-            </h4>
-            <div className="flex space-x-2">
-              <button className="text-xs bg-gray-100 dark:bg-gray-700 hover:bg-gray-200 dark:hover:bg-gray-600 px-2 py-1 rounded">
-                Likes
-              </button>
-              <button className="text-xs bg-gray-100 dark:bg-gray-700 hover:bg-gray-200 dark:hover:bg-gray-600 px-2 py-1 rounded">
-                Comments
-              </button>
-              <button className="text-xs bg-primary-100 dark:bg-primary-900/20 text-primary-600 dark:text-primary-400 px-2 py-1 rounded">
-                Shares
-              </button>
+        <Card className="shadow-sm border border-gray-100">
+          <CardBody className="p-6">
+            <div className="flex justify-between items-center mb-6">
+              <Typography variant="h6" className="text-gray-900 font-semibold">
+                Engagement Trends
+              </Typography>
+              <div className="flex space-x-2">
+                <Chip
+                  value="7 Days"
+                  size="sm"
+                  className="bg-blue-50 text-blue-600"
+                />
+                <Chip value="30 Days" size="sm" variant="outlined" />
+                <Chip value="90 Days" size="sm" variant="outlined" />
+              </div>
             </div>
-          </div>
-          <Chart type="line" data={engagementData} />
-        </div>
+            <div className="relative h-80">
+              <Chart type="line" data={engagementData} />
+            </div>
+          </CardBody>
+        </Card>
 
-        <div className="card p-6">
-          <div className="flex justify-between items-center mb-4">
-            <h4 className="font-semibold text-gray-900 dark:text-white">
-              Follower Growth
-            </h4>
-            <div className="flex space-x-2">
-              <button className="text-xs bg-primary-100 dark:bg-primary-900/20 text-primary-600 dark:text-primary-400 px-2 py-1 rounded">
-                7 Days
-              </button>
-              <button className="text-xs bg-gray-100 dark:bg-gray-700 hover:bg-gray-200 dark:hover:bg-gray-600 px-2 py-1 rounded">
-                30 Days
-              </button>
-              <button className="text-xs bg-gray-100 dark:bg-gray-700 hover:bg-gray-200 dark:hover:bg-gray-600 px-2 py-1 rounded">
-                90 Days
-              </button>
+        <Card className="shadow-sm border border-gray-100">
+          <CardBody className="p-6">
+            <div className="flex justify-between items-center mb-6">
+              <Typography variant="h6" className="text-gray-900 font-semibold">
+                Follower Growth
+              </Typography>
+              <div className="flex space-x-2">
+                <Chip
+                  value="Monthly"
+                  size="sm"
+                  className="bg-purple-50 text-purple-600"
+                />
+                <Chip value="Weekly" size="sm" variant="outlined" />
+              </div>
             </div>
-          </div>
-          <Chart type="bar" data={followerData} />
-        </div>
+            <div className="relative h-80">
+              <Chart type="bar" data={followerData} />
+            </div>
+          </CardBody>
+        </Card>
       </div>
 
       {/* Bottom Section */}
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
         {/* Top Performing Posts */}
-        <div className="card p-6">
-          <div className="flex justify-between items-center mb-4">
-            <h4 className="font-semibold text-gray-900 dark:text-white">
-              Top Performing Posts
-            </h4>
-            <button className="text-primary-600 hover:text-primary-700 dark:text-primary-400 dark:hover:text-primary-300 text-sm flex items-center">
-              View All
-              <ArrowUpRight className="w-4 h-4 ml-1" />
-            </button>
-          </div>
-          <div className="overflow-x-auto">
-            <table className="min-w-full divide-y divide-gray-200 dark:divide-gray-700">
-              <thead className="bg-gray-50 dark:bg-gray-800">
-                <tr>
-                  <th className="px-4 py-2 text-left text-xs font-medium text-gray-500 dark:text-gray-400 uppercase tracking-wider">
-                    Post
-                  </th>
-                  <th className="px-4 py-2 text-left text-xs font-medium text-gray-500 dark:text-gray-400 uppercase tracking-wider">
-                    Engagement
-                  </th>
-                  <th className="px-4 py-2 text-left text-xs font-medium text-gray-500 dark:text-gray-400 uppercase tracking-wider">
-                    Reach
-                  </th>
-                </tr>
-              </thead>
-              <tbody className="bg-white dark:bg-gray-800 divide-y divide-gray-200 dark:divide-gray-700">
-                {topPosts.map((post, index) => (
-                  <tr key={index}>
-                    <td className="px-4 py-3 whitespace-nowrap text-sm font-medium text-gray-900 dark:text-white">
+        <Card className="shadow-sm border border-gray-100">
+          <CardBody className="p-6">
+            <div className="flex justify-between items-center mb-6">
+              <Typography variant="h6" className="text-gray-900 font-semibold">
+                Top Performing Posts
+              </Typography>
+              <Button
+                variant="text"
+                className="flex items-center gap-2 text-blue-600 rounded-lg"
+                size="sm"
+              >
+                View All
+                <ArrowUpRight className="w-4 h-4" />
+              </Button>
+            </div>
+            <div className="space-y-4">
+              {topPosts.map((post, index) => (
+                <div
+                  key={index}
+                  className="flex justify-between items-center p-4 bg-gray-50 rounded-xl hover:bg-gray-100 transition-colors"
+                >
+                  <div>
+                    <Typography
+                      variant="small"
+                      className="font-medium text-gray-900"
+                    >
                       {post.title}
-                    </td>
-                    <td className="px-4 py-3 whitespace-nowrap text-sm text-gray-500 dark:text-gray-400">
-                      <span
-                        className={`inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium ${
-                          post.status === "high"
-                            ? "bg-green-100 text-green-800 dark:bg-green-900/20 dark:text-green-400"
-                            : "bg-yellow-100 text-yellow-800 dark:bg-yellow-900/20 dark:text-yellow-400"
-                        }`}
-                      >
-                        {post.engagement.toLocaleString()}
-                      </span>
-                    </td>
-                    <td className="px-4 py-3 whitespace-nowrap text-sm text-gray-500 dark:text-gray-400">
-                      {post.reach.toLocaleString()}
-                    </td>
-                  </tr>
-                ))}
-              </tbody>
-            </table>
-          </div>
-        </div>
+                    </Typography>
+                    <Typography variant="small" className="text-gray-600">
+                      {post.reach.toLocaleString()} reach
+                    </Typography>
+                  </div>
+                  <Chip
+                    value={post.engagement.toLocaleString()}
+                    size="sm"
+                    className={
+                      post.status === "high"
+                        ? "bg-green-50 text-green-600"
+                        : "bg-yellow-50 text-yellow-600"
+                    }
+                  />
+                </div>
+              ))}
+            </div>
+          </CardBody>
+        </Card>
 
         {/* Email Senders Chart */}
-        <div className="card p-6">
-          <div className="flex justify-between items-center mb-4">
-            <h4 className="font-semibold text-gray-900 dark:text-white">
-              Top Email Senders
-            </h4>
-            <button className="text-primary-600 hover:text-primary-700 dark:text-primary-400 dark:hover:text-primary-300 text-sm flex items-center">
-              View All
-              <ArrowUpRight className="w-4 h-4 ml-1" />
-            </button>
-          </div>
-          <Chart type="doughnut" data={emailSendersData} />
-        </div>
+        <Card className="shadow-sm border border-gray-100">
+          <CardBody className="p-6">
+            <div className="flex justify-between items-center mb-6">
+              <Typography variant="h6" className="text-gray-900 font-semibold">
+                Top Email Senders
+              </Typography>
+              <Button
+                variant="text"
+                className="flex items-center gap-2 text-blue-600 rounded-lg"
+                size="sm"
+              >
+                View All
+                <ArrowUpRight className="w-4 h-4" />
+              </Button>
+            </div>
+            <div className="relative h-80">
+              <Chart type="doughnut" data={emailSendersData} />
+            </div>
+          </CardBody>
+        </Card>
       </div>
 
       {/* Recommendations Section */}
-      <div className="card p-6">
-        <div className="flex justify-between items-center mb-6">
-          <h3 className="text-lg font-semibold text-gray-900 dark:text-white">
-            Personalized Recommendations
-          </h3>
-          <button className="text-primary-600 hover:text-primary-700 dark:text-primary-400 dark:hover:text-primary-300 flex items-center">
-            <ArrowUpRight className="w-4 h-4 mr-1" />
-            Refresh
-          </button>
-        </div>
-
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-          {[
-            {
-              title: "Posting Strategy",
-              description:
-                "Based on your audience activity, we recommend increasing your posting frequency to 3-4 times per week on Facebook and 5-7 times per week on Instagram.",
-              priority: "MEDIUM PRIORITY",
-              color: "blue",
-              icon: "📅",
-            },
-            {
-              title: "Optimal Posting Times",
-              description:
-                "Your audience is most active between 1:30-3:30 PM on weekdays. Schedule 70% of your posts during this window for maximum engagement.",
-              priority: "HIGH PRIORITY",
-              color: "purple",
-              icon: "⏰",
-            },
-            {
-              title: "Email Management",
-              description:
-                "87 unread emails detected. Consider setting up filters for frequent senders and allocating specific times for email management.",
-              priority: "HIGH PRIORITY",
-              color: "red",
-              icon: "📧",
-            },
-          ].map((recommendation, index) => (
-            <div
-              key={index}
-              className={`bg-${recommendation.color}-50 dark:bg-${recommendation.color}-900/20 rounded-lg p-4 border border-${recommendation.color}-100 dark:border-${recommendation.color}-800`}
-            >
-              <div className="flex items-center mb-3">
-                <div
-                  className={`bg-${recommendation.color}-100 dark:bg-${recommendation.color}-900/40 p-2 rounded-full mr-3`}
-                >
-                  <span className="text-lg">{recommendation.icon}</span>
-                </div>
-                <h4 className="font-medium text-gray-900 dark:text-white">
-                  {recommendation.title}
-                </h4>
-              </div>
-              <p className="text-gray-700 dark:text-gray-300 mb-3 text-sm">
-                {recommendation.description}
-              </p>
-              <div className="flex justify-between items-center">
-                <span
-                  className={`text-xs text-${recommendation.color}-600 dark:text-${recommendation.color}-400 font-medium`}
-                >
-                  {recommendation.priority}
-                </span>
-                <button
-                  className={`text-xs bg-${recommendation.color}-600 hover:bg-${recommendation.color}-700 text-white py-1 px-3 rounded-full transition`}
-                >
-                  View Details
-                </button>
-              </div>
+      <Card className="shadow-sm border border-gray-100">
+        <CardBody className="p-6">
+          <div className="flex justify-between items-center mb-6">
+            <div>
+              <Typography variant="h5" className="text-gray-900 font-bold">
+                Personalized Recommendations
+              </Typography>
+              <Typography variant="small" className="text-gray-600 mt-1">
+                AI-powered insights to boost your performance
+              </Typography>
             </div>
-          ))}
-        </div>
-      </div>
+            <Button
+              variant="text"
+              className="flex items-center gap-2 text-blue-600 rounded-lg"
+            >
+              <ArrowUpRight className="w-4 h-4" />
+              Refresh
+            </Button>
+          </div>
+
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+            {recommendations.map((recommendation, index) => (
+              <Card
+                key={index}
+                className={`border-l-4 border-l-${recommendation.color}-500 bg-${recommendation.color}-50/50 hover:shadow-md transition-all duration-300`}
+              >
+                <CardBody className="p-6">
+                  <div className="flex items-center mb-4">
+                    <div
+                      className={`bg-${recommendation.color}-100 p-3 rounded-xl mr-4`}
+                    >
+                      <span className="text-lg">{recommendation.icon}</span>
+                    </div>
+                    <div>
+                      <Typography
+                        variant="h6"
+                        className="text-gray-900 font-semibold"
+                      >
+                        {recommendation.title}
+                      </Typography>
+                      <Chip
+                        value={`${recommendation.priority} PRIORITY`}
+                        size="sm"
+                        className={`bg-${recommendation.color}-100 text-${recommendation.color}-600 mt-1`}
+                      />
+                    </div>
+                  </div>
+                  <Typography variant="small" className="text-gray-700 mb-4">
+                    {recommendation.description}
+                  </Typography>
+                  <Button
+                    size="sm"
+                    className={`bg-${recommendation.color}-600 hover:bg-${recommendation.color}-700 rounded-lg`}
+                  >
+                    View Details
+                  </Button>
+                </CardBody>
+              </Card>
+            ))}
+          </div>
+        </CardBody>
+      </Card>
     </div>
   );
 };

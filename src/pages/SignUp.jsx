@@ -1,11 +1,16 @@
+"use client";
+
 import { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
+import { Eye, EyeSlash, Sparkle, Check } from "@phosphor-icons/react";
 import {
-  Eye,
-  EyeSlash,
-  Sparkle,
-  Check,
-} from "@phosphor-icons/react";
+  Card,
+  CardBody,
+  Input,
+  Button,
+  Typography,
+  Checkbox,
+} from "@material-tailwind/react";
 
 const SignUp = ({ onSignUp }) => {
   const [showPassword, setShowPassword] = useState(false);
@@ -23,7 +28,7 @@ const SignUp = ({ onSignUp }) => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    
+
     if (formData.password !== formData.confirmPassword) {
       alert("Passwords don't match!");
       return;
@@ -42,12 +47,12 @@ const SignUp = ({ onSignUp }) => {
         email: formData.email,
         firstName: formData.firstName,
         lastName: formData.lastName,
-        role: "Marketing Manager"
+        role: "Marketing Manager",
       };
-      
+
       onSignUp(userData);
       setIsLoading(false);
-      navigate('/');
+      navigate("/");
     }, 1000);
   };
 
@@ -59,12 +64,12 @@ const SignUp = ({ onSignUp }) => {
         email: `user@${provider}.com`,
         firstName: "Sarah",
         lastName: "Johnson",
-        role: "Marketing Manager"
+        role: "Marketing Manager",
       };
-      
+
       onSignUp(userData);
       setIsLoading(false);
-      navigate('/');
+      navigate("/");
     }, 1000);
   };
 
@@ -78,7 +83,7 @@ const SignUp = ({ onSignUp }) => {
   ];
 
   return (
-    <div className="min-h-screen flex bg-gray-50 dark:bg-gray-900">
+    <div className="min-h-screen flex bg-gray-50">
       {/* Left side - Image */}
       <div className="hidden lg:flex lg:w-1/2 relative">
         <div className="absolute inset-0 bg-gradient-to-br from-purple-600/90 to-pink-600/90 z-10"></div>
@@ -92,17 +97,21 @@ const SignUp = ({ onSignUp }) => {
             <div className="w-16 h-16 bg-white/20 backdrop-blur-sm rounded-2xl flex items-center justify-center mx-auto mb-8">
               <Sparkle className="w-8 h-8" />
             </div>
-            <h1 className="text-4xl font-bold mb-4">Start Your Journey</h1>
-            <p className="text-xl text-white/90 mb-8">
+            <Typography variant="h2" className="text-white font-bold mb-4">
+              Start Your Journey
+            </Typography>
+            <Typography variant="lead" className="text-white/90 mb-8">
               Join thousands of businesses growing with SocialSync
-            </p>
+            </Typography>
             <div className="space-y-3 text-left">
               {features.map((feature, index) => (
                 <div key={index} className="flex items-center">
                   <div className="w-5 h-5 bg-white/20 rounded-full flex items-center justify-center mr-3">
                     <Check className="w-3 h-3" />
                   </div>
-                  <span className="text-white/90">{feature}</span>
+                  <Typography variant="small" className="text-white/90">
+                    {feature}
+                  </Typography>
                 </div>
               ))}
             </div>
@@ -118,154 +127,131 @@ const SignUp = ({ onSignUp }) => {
               <div className="w-12 h-12 bg-gradient-to-r from-blue-500 to-purple-600 rounded-xl flex items-center justify-center">
                 <Sparkle className="w-6 h-6 text-white" />
               </div>
-              <span className="ml-3 text-2xl font-bold bg-gradient-to-r from-blue-600 to-purple-600 bg-clip-text text-transparent">
+              <Typography
+                variant="h5"
+                className="ml-3 bg-gradient-to-r from-blue-600 to-purple-600 bg-clip-text text-transparent"
+              >
                 SocialSync
-              </span>
+              </Typography>
             </div>
-            <h2 className="text-3xl font-bold text-gray-900 dark:text-white mb-2">
+            <Typography variant="h3" className="text-gray-900 font-bold mb-2">
               Create your account
-            </h2>
-            <p className="text-gray-600 dark:text-gray-400">
+            </Typography>
+            <Typography variant="small" className="text-gray-600">
               Start your free trial today
-            </p>
+            </Typography>
           </div>
 
           {/* Social Login */}
           <div className="space-y-3 mb-6">
-            <button 
-              onClick={() => handleSocialSignUp('google')}
+            <Button
+              variant="outlined"
+              className="w-full rounded-xl border-gray-300"
+              onClick={() => handleSocialSignUp("google")}
               disabled={isLoading}
-              className="w-full flex items-center justify-center px-4 py-3 border border-gray-300 dark:border-gray-600 rounded-xl hover:bg-gray-50 dark:hover:bg-gray-700 transition-colors disabled:opacity-50"
             >
-              <span className="text-gray-700 dark:text-gray-300">
-                Continue with Google
-              </span>
-            </button>
+              Continue with Google
+            </Button>
             <div className="grid grid-cols-2 gap-3">
-              <button 
-                onClick={() => handleSocialSignUp('facebook')}
+              <Button
+                variant="outlined"
+                className="rounded-xl border-gray-300"
+                onClick={() => handleSocialSignUp("facebook")}
                 disabled={isLoading}
-                className="flex items-center justify-center px-4 py-3 border border-gray-300 dark:border-gray-600 rounded-xl hover:bg-gray-50 dark:hover:bg-gray-700 transition-colors disabled:opacity-50"
               >
-                <span className="text-gray-700 dark:text-gray-300">
-                  Facebook
-                </span>
-              </button>
-              <button 
-                onClick={() => handleSocialSignUp('twitter')}
+                Facebook
+              </Button>
+              <Button
+                variant="outlined"
+                className="rounded-xl border-gray-300"
+                onClick={() => handleSocialSignUp("twitter")}
                 disabled={isLoading}
-                className="flex items-center justify-center px-4 py-3 border border-gray-300 dark:border-gray-600 rounded-xl hover:bg-gray-50 dark:hover:bg-gray-700 transition-colors disabled:opacity-50"
               >
-                <span className="text-gray-700 dark:text-gray-300">
-                  Twitter
-                </span>
-              </button>
+                Twitter
+              </Button>
             </div>
           </div>
 
           <div className="relative mb-6">
             <div className="absolute inset-0 flex items-center">
-              <div className="w-full border-t border-gray-300 dark:border-gray-600"></div>
+              <div className="w-full border-t border-gray-300"></div>
             </div>
             <div className="relative flex justify-center text-sm">
-              <span className="px-2 bg-gray-50 dark:bg-gray-900 text-gray-500">
+              <span className="px-2 bg-gray-50 text-gray-500">
                 Or continue with email
               </span>
             </div>
           </div>
 
-          <form onSubmit={handleSubmit} className="space-y-6">
-            <div className="grid grid-cols-2 gap-4">
-              <div>
-                <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
-                  First name
-                </label>
-                <input
-                  type="text"
-                  required
-                  value={formData.firstName}
+          <Card className="shadow-lg">
+            <CardBody className="p-6">
+              <form onSubmit={handleSubmit} className="space-y-6">
+                <div className="grid grid-cols-2 gap-4">
+                  <Input
+                    type="text"
+                    label="First name"
+                    value={formData.firstName}
+                    onChange={(e) =>
+                      setFormData({ ...formData, firstName: e.target.value })
+                    }
+                    className="!border-gray-300 focus:!border-blue-500"
+                    required
+                    disabled={isLoading}
+                  />
+                  <Input
+                    type="text"
+                    label="Last name"
+                    value={formData.lastName}
+                    onChange={(e) =>
+                      setFormData({ ...formData, lastName: e.target.value })
+                    }
+                    className="!border-gray-300 focus:!border-blue-500"
+                    required
+                    disabled={isLoading}
+                  />
+                </div>
+
+                <Input
+                  type="email"
+                  label="Email address"
+                  value={formData.email}
                   onChange={(e) =>
-                    setFormData({ ...formData, firstName: e.target.value })
+                    setFormData({ ...formData, email: e.target.value })
                   }
-                  className="w-full px-4 py-3 border border-gray-300 dark:border-gray-600 rounded-xl focus:outline-none focus:ring-2 focus:ring-blue-500 dark:bg-gray-800 dark:text-white"
-                  placeholder="John"
+                  className="!border-gray-300 focus:!border-blue-500"
+                  required
                   disabled={isLoading}
                 />
-              </div>
-              <div>
-                <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
-                  Last name
-                </label>
-                <input
-                  type="text"
-                  required
-                  value={formData.lastName}
-                  onChange={(e) =>
-                    setFormData({ ...formData, lastName: e.target.value })
-                  }
-                  className="w-full px-4 py-3 border border-gray-300 dark:border-gray-600 rounded-xl focus:outline-none focus:ring-2 focus:ring-blue-500 dark:bg-gray-800 dark:text-white"
-                  placeholder="Doe"
-                  disabled={isLoading}
-                />
-              </div>
-            </div>
 
-            <div>
-              <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
-                Email address
-              </label>
-              <input
-                type="email"
-                required
-                value={formData.email}
-                onChange={(e) =>
-                  setFormData({ ...formData, email: e.target.value })
-                }
-                className="w-full px-4 py-3 border border-gray-300 dark:border-gray-600 rounded-xl focus:outline-none focus:ring-2 focus:ring-blue-500 dark:bg-gray-800 dark:text-white"
-                placeholder="john@example.com"
-                disabled={isLoading}
-              />
-            </div>
-
-            <div>
-              <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
-                Password
-              </label>
-              <div className="relative">
-                <input
+                <Input
                   type={showPassword ? "text" : "password"}
-                  required
+                  label="Password"
                   value={formData.password}
                   onChange={(e) =>
                     setFormData({ ...formData, password: e.target.value })
                   }
-                  className="w-full px-4 py-3 pr-12 border border-gray-300 dark:border-gray-600 rounded-xl focus:outline-none focus:ring-2 focus:ring-blue-500 dark:bg-gray-800 dark:text-white"
-                  placeholder="Create a strong password"
-                  disabled={isLoading}
-                />
-                <button
-                  type="button"
-                  onClick={() => setShowPassword(!showPassword)}
-                  className="absolute inset-y-0 right-0 pr-3 flex items-center"
-                  disabled={isLoading}
-                >
-                  {showPassword ? (
-                    <EyeSlash className="w-5 h-5 text-gray-400" />
-                  ) : (
-                    <Eye className="w-5 h-5 text-gray-400" />
-                  )}
-                </button>
-              </div>
-            </div>
-
-            <div>
-              <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
-                Confirm password
-              </label>
-              <div className="relative">
-                <input
-                  type={showConfirmPassword ? "text" : "password"}
+                  className="!border-gray-300 focus:!border-blue-500"
                   required
+                  disabled={isLoading}
+                  icon={
+                    <button
+                      type="button"
+                      onClick={() => setShowPassword(!showPassword)}
+                      className="text-gray-400 hover:text-gray-600"
+                      disabled={isLoading}
+                    >
+                      {showPassword ? (
+                        <EyeSlash className="w-5 h-5" />
+                      ) : (
+                        <Eye className="w-5 h-5" />
+                      )}
+                    </button>
+                  }
+                />
+
+                <Input
+                  type={showConfirmPassword ? "text" : "password"}
+                  label="Confirm password"
                   value={formData.confirmPassword}
                   onChange={(e) =>
                     setFormData({
@@ -273,81 +259,78 @@ const SignUp = ({ onSignUp }) => {
                       confirmPassword: e.target.value,
                     })
                   }
-                  className="w-full px-4 py-3 pr-12 border border-gray-300 dark:border-gray-600 rounded-xl focus:outline-none focus:ring-2 focus:ring-blue-500 dark:bg-gray-800 dark:text-white"
-                  placeholder="Confirm your password"
-                  disabled={isLoading}
-                />
-                <button
-                  type="button"
-                  onClick={() => setShowConfirmPassword(!showConfirmPassword)}
-                  className="absolute inset-y-0 right-0 pr-3 flex items-center"
-                  disabled={isLoading}
-                >
-                  {showConfirmPassword ? (
-                    <EyeSlash className="w-5 h-5 text-gray-400" />
-                  ) : (
-                    <Eye className="w-5 h-5 text-gray-400" />
-                  )}
-                </button>
-              </div>
-            </div>
-
-            <div>
-              <label className="flex items-start">
-                <input
-                  type="checkbox"
+                  className="!border-gray-300 focus:!border-blue-500"
                   required
+                  disabled={isLoading}
+                  icon={
+                    <button
+                      type="button"
+                      onClick={() =>
+                        setShowConfirmPassword(!showConfirmPassword)
+                      }
+                      className="text-gray-400 hover:text-gray-600"
+                      disabled={isLoading}
+                    >
+                      {showConfirmPassword ? (
+                        <EyeSlash className="w-5 h-5" />
+                      ) : (
+                        <Eye className="w-5 h-5" />
+                      )}
+                    </button>
+                  }
+                />
+
+                <Checkbox
+                  label={
+                    <Typography variant="small" className="text-gray-600">
+                      I agree to the{" "}
+                      <Link
+                        to="/terms"
+                        className="text-blue-600 hover:text-blue-500"
+                      >
+                        Terms of Service
+                      </Link>{" "}
+                      and{" "}
+                      <Link
+                        to="/privacy"
+                        className="text-blue-600 hover:text-blue-500"
+                      >
+                        Privacy Policy
+                      </Link>
+                    </Typography>
+                  }
                   checked={formData.agreeToTerms}
                   onChange={(e) =>
                     setFormData({ ...formData, agreeToTerms: e.target.checked })
                   }
-                  className="rounded border-gray-300 text-blue-600 focus:ring-blue-500 mt-1"
                   disabled={isLoading}
+                  required
                 />
-                <span className="ml-2 text-sm text-gray-600 dark:text-gray-400">
-                  I agree to the{" "}
-                  <Link
-                    to="/terms"
-                    className="text-blue-600 hover:text-blue-500 dark:text-blue-400"
-                  >
-                    Terms of Service
-                  </Link>{" "}
-                  and{" "}
-                  <Link
-                    to="/privacy"
-                    className="text-blue-600 hover:text-blue-500 dark:text-blue-400"
-                  >
-                    Privacy Policy
-                  </Link>
-                </span>
-              </label>
-            </div>
 
-            <button 
-              type="submit" 
-              disabled={isLoading}
-              className="w-full bg-gradient-to-r from-blue-600 to-purple-600 hover:from-blue-700 hover:to-purple-700 text-white font-medium py-3 px-6 rounded-xl transition-all duration-200 shadow-lg hover:shadow-xl transform hover:-translate-y-0.5 disabled:opacity-50 disabled:cursor-not-allowed disabled:transform-none"
-            >
-              {isLoading ? (
-                <div className="flex items-center justify-center">
-                  <div className="animate-spin rounded-full h-5 w-5 border-b-2 border-white mr-2"></div>
-                  Creating account...
-                </div>
-              ) : (
-                'Create account'
-              )}
-            </button>
-          </form>
+                <Button
+                  type="submit"
+                  className="w-full bg-gradient-to-r from-blue-600 to-purple-600 rounded-xl"
+                  disabled={isLoading}
+                  loading={isLoading}
+                >
+                  {isLoading ? "Creating account..." : "Create account"}
+                </Button>
+              </form>
+            </CardBody>
+          </Card>
 
-          <p className="mt-8 text-center text-sm text-gray-600 dark:text-gray-400">
+          <Typography
+            variant="small"
+            className="mt-8 text-center text-gray-600"
+          >
             Already have an account?{" "}
             <Link
               to="/signin"
-              className="font-medium text-blue-600 hover:text-blue-500 dark:text-blue-400"
+              className="font-medium text-blue-600 hover:text-blue-500"
             >
               Sign in
             </Link>
-          </p>
+          </Typography>
         </div>
       </div>
     </div>

@@ -7,8 +7,18 @@ import {
   Clock,
   ArrowUpRight,
   Calendar,
-  FilmStrip,
+  FunnelX,
 } from "@phosphor-icons/react";
+import {
+  Card,
+  CardBody,
+  Typography,
+  Button,
+  Select,
+  Option,
+  Chip,
+  Avatar,
+} from "@material-tailwind/react";
 import StatCard from "../components/StatCard";
 import Chart from "../components/Chart";
 
@@ -22,7 +32,7 @@ const Gmail = () => {
       change: "8.3% from last week",
       changeType: "negative",
       icon: Envelope,
-      iconColor: "bg-red-100 text-red-600 dark:bg-red-900/20 dark:text-red-400",
+      iconColor: "bg-red-500",
     },
     {
       title: "Avg. Response Time",
@@ -30,8 +40,7 @@ const Gmail = () => {
       change: "Improved by 1.1 hrs",
       changeType: "positive",
       icon: Clock,
-      iconColor:
-        "bg-green-100 text-green-600 dark:bg-green-900/20 dark:text-green-400",
+      iconColor: "bg-green-500",
     },
     {
       title: "Unread Emails",
@@ -39,8 +48,7 @@ const Gmail = () => {
       change: "12 from last week",
       changeType: "negative",
       icon: Envelope,
-      iconColor:
-        "bg-yellow-100 text-yellow-600 dark:bg-yellow-900/20 dark:text-yellow-400",
+      iconColor: "bg-yellow-500",
     },
     {
       title: "Response Rate",
@@ -48,8 +56,7 @@ const Gmail = () => {
       change: "3% from last week",
       changeType: "positive",
       icon: TrendUp,
-      iconColor:
-        "bg-blue-100 text-blue-600 dark:bg-blue-900/20 dark:text-blue-400",
+      iconColor: "bg-blue-500",
     },
   ];
 
@@ -82,6 +89,7 @@ const Gmail = () => {
         label: "Emails Received",
         data: [120, 210, 180, 150, 90, 40],
         backgroundColor: "rgba(239, 68, 68, 0.7)",
+        borderRadius: 8,
       },
     ],
   };
@@ -112,8 +120,7 @@ const Gmail = () => {
       emails: 87,
       category: "Marketing",
       responseTime: "2.5 hrs",
-      categoryColor:
-        "bg-green-100 text-green-800 dark:bg-green-900/20 dark:text-green-400",
+      categoryColor: "bg-green-50 text-green-600",
     },
     {
       name: "Sarah Johnson",
@@ -123,8 +130,7 @@ const Gmail = () => {
       emails: 65,
       category: "Support",
       responseTime: "6.1 hrs",
-      categoryColor:
-        "bg-yellow-100 text-yellow-800 dark:bg-yellow-900/20 dark:text-yellow-400",
+      categoryColor: "bg-yellow-50 text-yellow-600",
     },
     {
       name: "Michael Brown",
@@ -134,8 +140,7 @@ const Gmail = () => {
       emails: 43,
       category: "Newsletter",
       responseTime: "-",
-      categoryColor:
-        "bg-blue-100 text-blue-800 dark:bg-blue-900/20 dark:text-blue-400",
+      categoryColor: "bg-blue-50 text-blue-600",
     },
     {
       name: "Emily Davis",
@@ -145,42 +150,39 @@ const Gmail = () => {
       emails: 32,
       category: "Personal",
       responseTime: "1.2 hrs",
-      categoryColor:
-        "bg-purple-100 text-purple-800 dark:bg-purple-900/20 dark:text-purple-400",
+      categoryColor: "bg-purple-50 text-purple-600",
     },
   ];
 
   return (
-    <div className="space-y-6">
+    <div className="space-y-8">
       {/* Header */}
-      <div className="flex justify-between items-center">
-        <div className="flex items-center">
-          <div className="w-10 h-10 bg-red-500 rounded-lg flex items-center justify-center mr-4">
+      <div className="flex flex-col lg:flex-row lg:justify-between lg:items-center gap-4">
+        <div className="flex items-center space-x-4">
+          <div className="w-12 h-12 bg-red-500 rounded-xl flex items-center justify-center shadow-lg">
             <Envelope className="w-6 h-6 text-white" />
           </div>
           <div>
-            <h1 className="text-2xl font-bold text-gray-900 dark:text-white">
+            <Typography variant="h4" className="text-gray-900 font-bold">
               Gmail Analytics
-            </h1>
-            <p className="text-gray-600 dark:text-gray-400">
+            </Typography>
+            <Typography variant="small" className="text-gray-600">
               Monitor your email patterns and communication insights
-            </p>
+            </Typography>
           </div>
         </div>
-        <div className="flex items-center space-x-3">
-          <select
-            value={timeRange}
-            onChange={(e) => setTimeRange(e.target.value)}
-            className="input"
-          >
-            <option value="7">Last 7 days</option>
-            <option value="30">Last 30 days</option>
-            <option value="90">Last 90 days</option>
-          </select>
-          <button className="btn-primary flex items-center">
-            <Calendar className="w-4 h-4 mr-2" />
+
+        <div className="flex flex-col sm:flex-row gap-3">
+          <Select value={timeRange} onChange={setTimeRange}>
+            <Option value="7">Last 7 days</Option>
+            <Option value="30">Last 30 days</Option>
+            <Option value="90">Last 90 days</Option>
+          </Select>
+
+          <Button className="bg-red-500 rounded-lg flex items-center gap-2">
+            <Calendar className="w-4 h-4" />
             Custom Range
-          </button>
+          </Button>
         </div>
       </div>
 
@@ -193,244 +195,283 @@ const Gmail = () => {
 
       {/* Charts Section */}
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
-        <div className="card p-6">
-          <div className="flex justify-between items-center mb-4">
-            <h4 className="font-semibold text-gray-900 dark:text-white">
-              Email Traffic by Day
-            </h4>
-            <select className="input text-sm">
-              <option>Last 7 days</option>
-              <option selected>Last 30 days</option>
-              <option>Last 90 days</option>
-            </select>
-          </div>
-          <Chart type="line" data={emailTrafficData} />
-        </div>
-
-        <div className="card p-6">
-          <div className="flex justify-between items-center mb-4">
-            <h4 className="font-semibold text-gray-900 dark:text-white">
-              Peak Email Times
-            </h4>
-            <div className="flex items-center text-sm text-gray-500 dark:text-gray-400">
-              <span className="w-2 h-2 bg-red-500 rounded-full mr-2"></span>
-              Emails Received
+        <Card className="shadow-sm border border-gray-100">
+          <CardBody className="p-6">
+            <div className="flex justify-between items-center mb-6">
+              <Typography variant="h6" className="text-gray-900 font-semibold">
+                Email Traffic by Day
+              </Typography>
+              <Select label="Time Period" size="sm">
+                <Option>Last 7 days</Option>
+                <Option>Last 30 days</Option>
+                <Option>Last 90 days</Option>
+              </Select>
             </div>
-          </div>
-          <Chart type="bar" data={peakEmailData} />
-          <div className="mt-4 p-3 bg-red-50 dark:bg-red-900/20 rounded-lg">
-            <p className="text-sm text-red-800 dark:text-red-300">
-              💡 Most emails arrive between 9-11 AM. Consider scheduling email
-              checks during these times.
-            </p>
-          </div>
-        </div>
+            <div className="relative h-80">
+              <Chart type="line" data={emailTrafficData} />
+            </div>
+          </CardBody>
+        </Card>
+
+        <Card className="shadow-sm border border-gray-100">
+          <CardBody className="p-6">
+            <div className="flex justify-between items-center mb-6">
+              <Typography variant="h6" className="text-gray-900 font-semibold">
+                Peak Email Times
+              </Typography>
+              <div className="flex items-center space-x-2">
+                <div className="w-3 h-3 bg-red-500 rounded-full"></div>
+                <Typography variant="small" className="text-gray-600">
+                  Emails Received
+                </Typography>
+              </div>
+            </div>
+            <div className="relative h-80">
+              <Chart type="bar" data={peakEmailData} />
+            </div>
+            <Card className="mt-4 bg-red-50 border border-red-200">
+              <CardBody className="p-4">
+                <Typography variant="small" className="text-red-800">
+                  💡 Most emails arrive between 9-11 AM. Consider scheduling
+                  email checks during these times.
+                </Typography>
+              </CardBody>
+            </Card>
+          </CardBody>
+        </Card>
       </div>
 
       {/* Email Categories and Response Patterns */}
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
-        <div className="card p-6">
-          <div className="flex justify-between items-center mb-4">
-            <h4 className="font-semibold text-gray-900 dark:text-white">
-              Email Categories
-            </h4>
-            <div className="flex space-x-2">
-              <button className="text-xs bg-red-100 dark:bg-red-900/20 text-red-600 dark:text-red-400 px-2 py-1 rounded">
-                Type
-              </button>
-              <button className="text-xs bg-gray-100 dark:bg-gray-700 hover:bg-gray-200 dark:hover:bg-gray-600 px-2 py-1 rounded">
-                Priority
-              </button>
+        <Card className="shadow-sm border border-gray-100">
+          <CardBody className="p-6">
+            <div className="flex justify-between items-center mb-6">
+              <Typography variant="h6" className="text-gray-900 font-semibold">
+                Email Categories
+              </Typography>
+              <div className="flex space-x-2">
+                <Chip
+                  value="Type"
+                  size="sm"
+                  className="bg-red-50 text-red-600"
+                />
+                <Chip value="Priority" size="sm" variant="outlined" />
+              </div>
             </div>
-          </div>
-          <Chart type="pie" data={emailCategoriesData} />
-        </div>
+            <div className="relative h-80">
+              <Chart type="pie" data={emailCategoriesData} />
+            </div>
+          </CardBody>
+        </Card>
 
-        <div className="card p-6">
-          <h4 className="font-semibold text-gray-900 dark:text-white mb-4">
-            Email Productivity Insights
-          </h4>
-          <div className="space-y-4">
-            <div className="flex justify-between items-center p-3 bg-gray-50 dark:bg-gray-700 rounded-lg">
-              <span className="text-sm font-medium text-gray-700 dark:text-gray-300">
-                Average Daily Emails
-              </span>
-              <span className="text-sm font-bold text-gray-900 dark:text-white">
-                42
-              </span>
+        <Card className="shadow-sm border border-gray-100">
+          <CardBody className="p-6">
+            <Typography
+              variant="h6"
+              className="text-gray-900 font-semibold mb-6"
+            >
+              Email Productivity Insights
+            </Typography>
+            <div className="space-y-4">
+              {[
+                { label: "Average Daily Emails", value: "42" },
+                { label: "Busiest Day", value: "Tuesday" },
+                { label: "Email Processing Time", value: "2.3 hrs/day" },
+                {
+                  label: "Spam Filtered",
+                  value: "156 emails",
+                  color: "text-green-600",
+                },
+              ].map((item, index) => (
+                <div
+                  key={index}
+                  className="flex justify-between items-center p-4 bg-gray-50 rounded-xl"
+                >
+                  <Typography
+                    variant="small"
+                    className="font-medium text-gray-700"
+                  >
+                    {item.label}
+                  </Typography>
+                  <Typography
+                    variant="small"
+                    className={`font-bold ${item.color || "text-gray-900"}`}
+                  >
+                    {item.value}
+                  </Typography>
+                </div>
+              ))}
             </div>
-            <div className="flex justify-between items-center p-3 bg-gray-50 dark:bg-gray-700 rounded-lg">
-              <span className="text-sm font-medium text-gray-700 dark:text-gray-300">
-                Busiest Day
-              </span>
-              <span className="text-sm font-bold text-gray-900 dark:text-white">
-                Tuesday
-              </span>
-            </div>
-            <div className="flex justify-between items-center p-3 bg-gray-50 dark:bg-gray-700 rounded-lg">
-              <span className="text-sm font-medium text-gray-700 dark:text-gray-300">
-                Email Processing Time
-              </span>
-              <span className="text-sm font-bold text-gray-900 dark:text-white">
-                2.3 hrs/day
-              </span>
-            </div>
-            <div className="flex justify-between items-center p-3 bg-gray-50 dark:bg-gray-700 rounded-lg">
-              <span className="text-sm font-medium text-gray-700 dark:text-gray-300">
-                Spam Filtered
-              </span>
-              <span className="text-sm font-bold text-green-600 dark:text-green-400">
-                156 emails
-              </span>
-            </div>
-          </div>
-        </div>
+          </CardBody>
+        </Card>
       </div>
 
       {/* Top Senders Table */}
-      <div className="card p-6">
-        <div className="flex justify-between items-center mb-6">
-          <h4 className="font-semibold text-gray-900 dark:text-white">
-            Top Email Senders
-          </h4>
-          <button className="text-primary-600 hover:text-primary-700 dark:text-primary-400 dark:hover:text-primary-300 text-sm flex items-center">
-            View All
-            <ArrowUpRight className="w-4 h-4 ml-1" />
-          </button>
-        </div>
-        <div className="overflow-x-auto">
-          <table className="min-w-full divide-y divide-gray-200 dark:divide-gray-700">
-            <thead className="bg-gray-50 dark:bg-gray-800">
-              <tr>
-                <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-400 uppercase tracking-wider">
-                  Sender
-                </th>
-                <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-400 uppercase tracking-wider">
-                  Emails
-                </th>
-                <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-400 uppercase tracking-wider">
-                  Category
-                </th>
-                <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-400 uppercase tracking-wider">
-                  Avg. Response Time
-                </th>
-                <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-400 uppercase tracking-wider">
-                  Action
-                </th>
-              </tr>
-            </thead>
-            <tbody className="bg-white dark:bg-gray-800 divide-y divide-gray-200 dark:divide-gray-700">
-              {topSenders.map((sender, index) => (
-                <tr
-                  key={index}
-                  className="hover:bg-gray-50 dark:hover:bg-gray-700"
-                >
-                  <td className="px-6 py-4 whitespace-nowrap">
-                    <div className="flex items-center">
-                      <div className="flex-shrink-0 h-10 w-10">
-                        <img
-                          className="h-10 w-10 rounded-full"
-                          src={sender.avatar || "/placeholder.svg"}
-                          alt=""
-                        />
-                      </div>
-                      <div className="ml-4">
-                        <div className="text-sm font-medium text-gray-900 dark:text-white">
-                          {sender.name}
-                        </div>
-                        <div className="text-sm text-gray-500 dark:text-gray-400">
-                          {sender.email}
-                        </div>
-                      </div>
-                    </div>
-                  </td>
-                  <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500 dark:text-gray-400">
-                    {sender.emails}
-                  </td>
-                  <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500 dark:text-gray-400">
-                    <span
-                      className={`px-2 inline-flex text-xs leading-5 font-semibold rounded-full ${sender.categoryColor}`}
-                    >
-                      {sender.category}
-                    </span>
-                  </td>
-                  <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500 dark:text-gray-400">
-                    {sender.responseTime}
-                  </td>
-                  <td className="px-6 py-4 whitespace-nowrap text-sm font-medium">
-                    <button className="text-primary-600 hover:text-primary-900 dark:text-primary-400 dark:hover:text-primary-300 flex items-center">
-                      <FilmStrip className="w-4 h-4 mr-1" />
-                      Filter
-                    </button>
-                  </td>
+      <Card className="shadow-sm border border-gray-100">
+        <CardBody className="p-6">
+          <div className="flex justify-between items-center mb-6">
+            <Typography variant="h6" className="text-gray-900 font-semibold">
+              Top Email Senders
+            </Typography>
+            <Button
+              variant="text"
+              className="flex items-center gap-2 text-blue-600 rounded-lg"
+              size="sm"
+            >
+              View All
+              <ArrowUpRight className="w-4 h-4" />
+            </Button>
+          </div>
+          <div className="overflow-x-auto">
+            <table className="min-w-full">
+              <thead>
+                <tr className="border-b border-gray-200">
+                  <th className="text-left py-3 px-4 font-medium text-gray-600">
+                    Sender
+                  </th>
+                  <th className="text-left py-3 px-4 font-medium text-gray-600">
+                    Emails
+                  </th>
+                  <th className="text-left py-3 px-4 font-medium text-gray-600">
+                    Category
+                  </th>
+                  <th className="text-left py-3 px-4 font-medium text-gray-600">
+                    Avg. Response Time
+                  </th>
+                  <th className="text-left py-3 px-4 font-medium text-gray-600">
+                    Action
+                  </th>
                 </tr>
-              ))}
-            </tbody>
-          </table>
-        </div>
-      </div>
+              </thead>
+              <tbody>
+                {topSenders.map((sender, index) => (
+                  <tr
+                    key={index}
+                    className="border-b border-gray-100 hover:bg-gray-50 transition-colors"
+                  >
+                    <td className="py-4 px-4">
+                      <div className="flex items-center space-x-3">
+                        <Avatar
+                          src={sender.avatar || "/placeholder.svg"}
+                          alt={sender.name}
+                          size="sm"
+                        />
+                        <div>
+                          <Typography
+                            variant="small"
+                            className="font-medium text-gray-900"
+                          >
+                            {sender.name}
+                          </Typography>
+                          <Typography variant="small" className="text-gray-600">
+                            {sender.email}
+                          </Typography>
+                        </div>
+                      </div>
+                    </td>
+                    <td className="py-4 px-4">
+                      <Typography variant="small" className="text-gray-600">
+                        {sender.emails}
+                      </Typography>
+                    </td>
+                    <td className="py-4 px-4">
+                      <Chip
+                        value={sender.category}
+                        size="sm"
+                        className={sender.categoryColor}
+                      />
+                    </td>
+                    <td className="py-4 px-4">
+                      <Typography variant="small" className="text-gray-600">
+                        {sender.responseTime}
+                      </Typography>
+                    </td>
+                    <td className="py-4 px-4">
+                      <Button
+                        variant="text"
+                        size="sm"
+                        className="text-blue-600 hover:text-blue-900 rounded-lg flex items-center gap-1"
+                      >
+                        <FunnelX className="w-4 h-4" />
+                        Filter
+                      </Button>
+                    </td>
+                  </tr>
+                ))}
+              </tbody>
+            </table>
+          </div>
+        </CardBody>
+      </Card>
 
       {/* Email Management Tips */}
-      <div className="card p-6">
-        <h4 className="font-semibold text-gray-900 dark:text-white mb-6">
-          Email Management Recommendations
-        </h4>
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-          <div className="bg-blue-50 dark:bg-blue-900/20 rounded-lg p-4 border border-blue-100 dark:border-blue-800">
-            <div className="flex items-center mb-3">
-              <div className="bg-blue-100 dark:bg-blue-900/40 p-2 rounded-full mr-3">
-                <Clock className="w-5 h-5 text-blue-600 dark:text-blue-400" />
-              </div>
-              <h5 className="font-medium text-gray-900 dark:text-white">
-                Time Management
-              </h5>
-            </div>
-            <p className="text-gray-700 dark:text-gray-300 mb-3 text-sm">
-              Set specific times for checking emails (9 AM, 1 PM, 5 PM) to
-              improve productivity and reduce distractions.
-            </p>
-            <span className="text-xs text-blue-600 dark:text-blue-400 font-medium">
-              RECOMMENDED
-            </span>
+      <Card className="shadow-sm border border-gray-100">
+        <CardBody className="p-6">
+          <Typography variant="h6" className="text-gray-900 font-semibold mb-6">
+            Email Management Recommendations
+          </Typography>
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+            {[
+              {
+                title: "Time Management",
+                description:
+                  "Set specific times for checking emails (9 AM, 1 PM, 5 PM) to improve productivity and reduce distractions.",
+                icon: Clock,
+                color: "blue",
+                priority: "RECOMMENDED",
+              },
+              {
+                title: "Email Filters",
+                description:
+                  "Create filters for newsletters and marketing emails to automatically organize your inbox and reduce clutter.",
+                icon: FunnelX,
+                color: "yellow",
+                priority: "HIGH PRIORITY",
+              },
+              {
+                title: "Response Templates",
+                description:
+                  "Create templates for common responses to reduce your average response time from 4.2 hours to under 2 hours.",
+                icon: TrendUp,
+                color: "green",
+                priority: "EFFICIENCY BOOST",
+              },
+            ].map((tip, index) => {
+              const Icon = tip.icon;
+              return (
+                <Card
+                  key={index}
+                  className={`bg-${tip.color}-50 border border-${tip.color}-200`}
+                >
+                  <CardBody className="p-6">
+                    <div className="flex items-center mb-4">
+                      <div
+                        className={`bg-${tip.color}-100 p-3 rounded-xl mr-4`}
+                      >
+                        <Icon className={`w-5 h-5 text-${tip.color}-600`} />
+                      </div>
+                      <Typography
+                        variant="h6"
+                        className="text-gray-900 font-medium"
+                      >
+                        {tip.title}
+                      </Typography>
+                    </div>
+                    <Typography variant="small" className="text-gray-700 mb-4">
+                      {tip.description}
+                    </Typography>
+                    <Chip
+                      value={tip.priority}
+                      size="sm"
+                      className={`bg-${tip.color}-100 text-${tip.color}-600`}
+                    />
+                  </CardBody>
+                </Card>
+              );
+            })}
           </div>
-
-          <div className="bg-yellow-50 dark:bg-yellow-900/20 rounded-lg p-4 border border-yellow-100 dark:border-yellow-800">
-            <div className="flex items-center mb-3">
-              <div className="bg-yellow-100 dark:bg-yellow-900/40 p-2 rounded-full mr-3">
-                <FilmStrip className="w-5 h-5 text-yellow-600 dark:text-yellow-400" />
-              </div>
-              <h5 className="font-medium text-gray-900 dark:text-white">
-                Email Filters
-              </h5>
-            </div>
-            <p className="text-gray-700 dark:text-gray-300 mb-3 text-sm">
-              Create filters for newsletters and marketing emails to
-              automatically organize your inbox and reduce clutter.
-            </p>
-            <span className="text-xs text-yellow-600 dark:text-yellow-400 font-medium">
-              HIGH PRIORITY
-            </span>
-          </div>
-
-          <div className="bg-green-50 dark:bg-green-900/20 rounded-lg p-4 border border-green-100 dark:border-green-800">
-            <div className="flex items-center mb-3">
-              <div className="bg-green-100 dark:bg-green-900/40 p-2 rounded-full mr-3">
-                <TrendUp className="w-5 h-5 text-green-600 dark:text-green-400" />
-              </div>
-              <h5 className="font-medium text-gray-900 dark:text-white">
-                Response Templates
-              </h5>
-            </div>
-            <p className="text-gray-700 dark:text-gray-300 mb-3 text-sm">
-              Create templates for common responses to reduce your average
-              response time from 4.2 hours to under 2 hours.
-            </p>
-            <span className="text-xs text-green-600 dark:text-green-400 font-medium">
-              EFFICIENCY BOOST
-            </span>
-          </div>
-        </div>
-      </div>
+        </CardBody>
+      </Card>
     </div>
   );
 };

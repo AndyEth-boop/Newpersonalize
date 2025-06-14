@@ -12,6 +12,16 @@ import {
   Calendar,
   Hash,
 } from "@phosphor-icons/react";
+import {
+  Card,
+  CardBody,
+  Typography,
+  Button,
+  Select,
+  Option,
+  Chip,
+  Alert,
+} from "@material-tailwind/react";
 import StatCard from "../components/StatCard";
 import Chart from "../components/Chart";
 
@@ -25,8 +35,7 @@ const Twitter = () => {
       change: "89 this week",
       changeType: "positive",
       icon: Users,
-      iconColor:
-        "bg-blue-100 text-blue-600 dark:bg-blue-900/20 dark:text-blue-400",
+      iconColor: "bg-blue-400",
     },
     {
       title: "Tweet Impressions",
@@ -34,7 +43,7 @@ const Twitter = () => {
       change: "15% from last week",
       changeType: "positive",
       icon: TwitterLogo,
-      iconColor: "bg-sky-100 text-sky-600 dark:bg-sky-900/20 dark:text-sky-400",
+      iconColor: "bg-sky-500",
     },
     {
       title: "Engagement Rate",
@@ -42,7 +51,7 @@ const Twitter = () => {
       change: "0.4% from last week",
       changeType: "positive",
       icon: Heart,
-      iconColor: "bg-red-100 text-red-600 dark:bg-red-900/20 dark:text-red-400",
+      iconColor: "bg-red-500",
     },
     {
       title: "Retweets",
@@ -50,8 +59,7 @@ const Twitter = () => {
       change: "12% from last week",
       changeType: "positive",
       icon: Repeat,
-      iconColor:
-        "bg-green-100 text-green-600 dark:bg-green-900/20 dark:text-green-400",
+      iconColor: "bg-green-500",
     },
   ];
 
@@ -94,6 +102,7 @@ const Twitter = () => {
         backgroundColor: "rgba(29, 161, 242, 0.7)",
         borderColor: "rgba(29, 161, 242, 1)",
         borderWidth: 1,
+        borderRadius: 8,
       },
     ],
   };
@@ -137,60 +146,57 @@ const Twitter = () => {
   ];
 
   return (
-    <div className="space-y-6">
+    <div className="space-y-8">
       {/* Header */}
-      <div className="flex justify-between items-center">
-        <div className="flex items-center">
-          <div className="w-10 h-10 bg-blue-400 rounded-lg flex items-center justify-center mr-4">
+      <div className="flex flex-col lg:flex-row lg:justify-between lg:items-center gap-4">
+        <div className="flex items-center space-x-4">
+          <div className="w-12 h-12 bg-blue-400 rounded-xl flex items-center justify-center shadow-lg">
             <TwitterLogo className="w-6 h-6 text-white" />
           </div>
           <div>
-            <h1 className="text-2xl font-bold text-gray-900 dark:text-white">
+            <Typography variant="h4" className="text-gray-900 font-bold">
               Twitter Analytics
-            </h1>
-            <p className="text-gray-600 dark:text-gray-400">
+            </Typography>
+            <Typography variant="small" className="text-gray-600">
               Track your Twitter performance and audience engagement
-            </p>
+            </Typography>
           </div>
         </div>
-        <div className="flex items-center space-x-3">
-          <select
-            value={timeRange}
-            onChange={(e) => setTimeRange(e.target.value)}
-            className="input"
-          >
-            <option value="7">Last 7 days</option>
-            <option value="30">Last 30 days</option>
-            <option value="90">Last 90 days</option>
-          </select>
-          <button className="btn-primary flex items-center">
-            <Calendar className="w-4 h-4 mr-2" />
+
+        <div className="flex flex-col sm:flex-row gap-3">
+          <Select value={timeRange} onChange={setTimeRange}>
+            <Option value="7">Last 7 days</Option>
+            <Option value="30">Last 30 days</Option>
+            <Option value="90">Last 90 days</Option>
+          </Select>
+
+          <Button className="bg-blue-400 rounded-lg flex items-center gap-2">
+            <Calendar className="w-4 h-4" />
             Custom Range
-          </button>
+          </Button>
         </div>
       </div>
 
       {/* Connection Status */}
-      <div className="card p-6 border-yellow-200 dark:border-yellow-800 bg-yellow-50 dark:bg-yellow-900/10">
+      <Alert
+        color="yellow"
+        className="rounded-xl border border-yellow-200"
+        icon={<TwitterLogo className="w-6 h-6" />}
+      >
         <div className="flex items-center justify-between">
-          <div className="flex items-center">
-            <div className="w-10 h-10 bg-yellow-100 dark:bg-yellow-900/20 rounded-lg flex items-center justify-center mr-4">
-              <TwitterLogo className="w-6 h-6 text-yellow-600 dark:text-yellow-400" />
-            </div>
-            <div>
-              <h3 className="font-medium text-yellow-800 dark:text-yellow-200">
-                Twitter Account Not Connected
-              </h3>
-              <p className="text-sm text-yellow-600 dark:text-yellow-300">
-                Connect your Twitter account to start tracking your performance
-              </p>
-            </div>
+          <div>
+            <Typography variant="h6" className="font-medium">
+              Twitter Account Not Connected
+            </Typography>
+            <Typography variant="small">
+              Connect your Twitter account to start tracking your performance
+            </Typography>
           </div>
-          <button className="bg-blue-400 hover:bg-blue-500 text-white font-medium py-2 px-4 rounded-lg transition-colors">
+          <Button className="bg-blue-400 hover:bg-blue-500 rounded-lg">
             Connect Twitter
-          </button>
+          </Button>
         </div>
-      </div>
+      </Alert>
 
       {/* Stats Cards */}
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
@@ -201,185 +207,232 @@ const Twitter = () => {
 
       {/* Charts Section */}
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
-        <div className="card p-6">
-          <div className="flex justify-between items-center mb-4">
-            <h4 className="font-semibold text-gray-900 dark:text-white">
-              Engagement Trends
-            </h4>
-            <div className="flex space-x-2">
-              <button className="text-xs bg-red-100 dark:bg-red-900/20 text-red-600 dark:text-red-400 px-2 py-1 rounded">
-                Likes
-              </button>
-              <button className="text-xs bg-green-100 dark:bg-green-900/20 text-green-600 dark:text-green-400 px-2 py-1 rounded">
-                Retweets
-              </button>
-              <button className="text-xs bg-blue-100 dark:bg-blue-900/20 text-blue-600 dark:text-blue-400 px-2 py-1 rounded">
-                Replies
-              </button>
+        <Card className="shadow-sm border border-gray-100">
+          <CardBody className="p-6">
+            <div className="flex justify-between items-center mb-6">
+              <Typography variant="h6" className="text-gray-900 font-semibold">
+                Engagement Trends
+              </Typography>
+              <div className="flex space-x-2">
+                <Chip
+                  value="Likes"
+                  size="sm"
+                  className="bg-red-50 text-red-600"
+                />
+                <Chip
+                  value="Retweets"
+                  size="sm"
+                  className="bg-green-50 text-green-600"
+                />
+                <Chip
+                  value="Replies"
+                  size="sm"
+                  className="bg-blue-50 text-blue-600"
+                />
+              </div>
             </div>
-          </div>
-          <Chart type="line" data={engagementTrendsData} />
-        </div>
+            <div className="relative h-80">
+              <Chart type="line" data={engagementTrendsData} />
+            </div>
+          </CardBody>
+        </Card>
 
-        <div className="card p-6">
-          <div className="flex justify-between items-center mb-4">
-            <h4 className="font-semibold text-gray-900 dark:text-white">
-              Follower Growth
-            </h4>
-            <div className="flex space-x-2">
-              <button className="text-xs bg-blue-100 dark:bg-blue-900/20 text-blue-600 dark:text-blue-400 px-2 py-1 rounded">
-                Monthly
-              </button>
-              <button className="text-xs bg-gray-100 dark:bg-gray-700 hover:bg-gray-200 dark:hover:bg-gray-600 px-2 py-1 rounded">
-                Weekly
-              </button>
+        <Card className="shadow-sm border border-gray-100">
+          <CardBody className="p-6">
+            <div className="flex justify-between items-center mb-6">
+              <Typography variant="h6" className="text-gray-900 font-semibold">
+                Follower Growth
+              </Typography>
+              <div className="flex space-x-2">
+                <Chip
+                  value="Monthly"
+                  size="sm"
+                  className="bg-blue-50 text-blue-600"
+                />
+                <Chip value="Weekly" size="sm" variant="outlined" />
+              </div>
             </div>
-          </div>
-          <Chart type="bar" data={followerGrowthData} />
-        </div>
+            <div className="relative h-80">
+              <Chart type="bar" data={followerGrowthData} />
+            </div>
+          </CardBody>
+        </Card>
       </div>
 
       {/* Hashtag Performance and Top Tweets */}
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
-        <div className="card p-6">
-          <div className="flex justify-between items-center mb-4">
-            <h4 className="font-semibold text-gray-900 dark:text-white">
-              Top Hashtags
-            </h4>
-            <button className="text-primary-600 hover:text-primary-700 dark:text-primary-400 dark:hover:text-primary-300 text-sm flex items-center">
-              View All
-              <ArrowUpRight className="w-4 h-4 ml-1" />
-            </button>
-          </div>
-          <div className="space-y-4">
-            {hashtagPerformance.map((hashtag, index) => (
-              <div
-                key={index}
-                className="flex items-center justify-between p-3 bg-gray-50 dark:bg-gray-700 rounded-lg"
+        <Card className="shadow-sm border border-gray-100">
+          <CardBody className="p-6">
+            <div className="flex justify-between items-center mb-6">
+              <Typography variant="h6" className="text-gray-900 font-semibold">
+                Top Hashtags
+              </Typography>
+              <Button
+                variant="text"
+                className="flex items-center gap-2 text-blue-600 rounded-lg"
+                size="sm"
               >
-                <div className="flex items-center">
-                  <Hash className="w-4 h-4 text-blue-500 mr-2" />
-                  <span className="font-medium text-gray-900 dark:text-white">
-                    {hashtag.tag}
-                  </span>
-                </div>
-                <div className="text-right">
-                  <p className="text-sm font-medium text-gray-900 dark:text-white">
-                    {hashtag.mentions} mentions
-                  </p>
-                  <p className="text-xs text-gray-500 dark:text-gray-400">
-                    {hashtag.engagement} engagement
-                  </p>
-                </div>
-              </div>
-            ))}
-          </div>
-        </div>
-
-        <div className="card p-6">
-          <div className="flex justify-between items-center mb-4">
-            <h4 className="font-semibold text-gray-900 dark:text-white">
-              Top Performing Tweets
-            </h4>
-            <button className="text-primary-600 hover:text-primary-700 dark:text-primary-400 dark:hover:text-primary-300 text-sm flex items-center">
-              View All
-              <ArrowUpRight className="w-4 h-4 ml-1" />
-            </button>
-          </div>
-          <div className="space-y-4">
-            {topTweets.map((tweet, index) => (
-              <div
-                key={index}
-                className="border border-gray-200 dark:border-gray-700 rounded-lg p-4"
-              >
-                <p className="text-sm text-gray-900 dark:text-white mb-3">
-                  {tweet.content}
-                </p>
-                <div className="flex items-center justify-between text-xs text-gray-500 dark:text-gray-400">
-                  <span>{tweet.date}</span>
-                  <div className="flex items-center space-x-4">
-                    <span className="flex items-center">
-                      <Heart className="w-3 h-3 mr-1" />
-                      {tweet.likes}
-                    </span>
-                    <span className="flex items-center">
-                      <Repeat className="w-3 h-3 mr-1" />
-                      {tweet.retweets}
-                    </span>
-                    <span className="flex items-center">
-                      <ChatCircle className="w-3 h-3 mr-1" />
-                      {tweet.replies}
-                    </span>
+                View All
+                <ArrowUpRight className="w-4 h-4" />
+              </Button>
+            </div>
+            <div className="space-y-4">
+              {hashtagPerformance.map((hashtag, index) => (
+                <div
+                  key={index}
+                  className="flex items-center justify-between p-4 bg-gray-50 rounded-xl"
+                >
+                  <div className="flex items-center">
+                    <Hash className="w-4 h-4 text-blue-500 mr-2" />
+                    <Typography
+                      variant="small"
+                      className="font-medium text-gray-900"
+                    >
+                      {hashtag.tag}
+                    </Typography>
+                  </div>
+                  <div className="text-right">
+                    <Typography
+                      variant="small"
+                      className="font-medium text-gray-900"
+                    >
+                      {hashtag.mentions} mentions
+                    </Typography>
+                    <Typography variant="small" className="text-gray-600">
+                      {hashtag.engagement} engagement
+                    </Typography>
                   </div>
                 </div>
-              </div>
-            ))}
-          </div>
-        </div>
+              ))}
+            </div>
+          </CardBody>
+        </Card>
+
+        <Card className="shadow-sm border border-gray-100">
+          <CardBody className="p-6">
+            <div className="flex justify-between items-center mb-6">
+              <Typography variant="h6" className="text-gray-900 font-semibold">
+                Top Performing Tweets
+              </Typography>
+              <Button
+                variant="text"
+                className="flex items-center gap-2 text-blue-600 rounded-lg"
+                size="sm"
+              >
+                View All
+                <ArrowUpRight className="w-4 h-4" />
+              </Button>
+            </div>
+            <div className="space-y-4">
+              {topTweets.map((tweet, index) => (
+                <Card key={index} className="border border-gray-200">
+                  <CardBody className="p-4">
+                    <Typography variant="small" className="text-gray-900 mb-3">
+                      {tweet.content}
+                    </Typography>
+                    <div className="flex items-center justify-between text-xs text-gray-500">
+                      <span>{tweet.date}</span>
+                      <div className="flex items-center space-x-4">
+                        <span className="flex items-center">
+                          <Heart className="w-3 h-3 mr-1" />
+                          {tweet.likes}
+                        </span>
+                        <span className="flex items-center">
+                          <Repeat className="w-3 h-3 mr-1" />
+                          {tweet.retweets}
+                        </span>
+                        <span className="flex items-center">
+                          <ChatCircle className="w-3 h-3 mr-1" />
+                          {tweet.replies}
+                        </span>
+                      </div>
+                    </div>
+                  </CardBody>
+                </Card>
+              ))}
+            </div>
+          </CardBody>
+        </Card>
       </div>
 
       {/* Twitter Insights */}
-      <div className="card p-6">
-        <h4 className="font-semibold text-gray-900 dark:text-white mb-6">
-          Twitter Insights
-        </h4>
-        <div className="grid grid-cols-1 md:grid-cols-4 gap-6">
-          <div className="text-center">
-            <div className="w-16 h-16 bg-blue-100 dark:bg-blue-900/20 rounded-full flex items-center justify-center mx-auto mb-3">
-              <TwitterLogo className="w-8 h-8 text-blue-600 dark:text-blue-400" />
+      <Card className="shadow-sm border border-gray-100">
+        <CardBody className="p-6">
+          <Typography variant="h6" className="text-gray-900 font-semibold mb-6">
+            Twitter Insights
+          </Typography>
+          <div className="grid grid-cols-1 md:grid-cols-4 gap-8">
+            <div className="text-center">
+              <div className="w-16 h-16 bg-blue-100 rounded-full flex items-center justify-center mx-auto mb-4">
+                <TwitterLogo className="w-8 h-8 text-blue-600" />
+              </div>
+              <Typography
+                variant="h6"
+                className="text-gray-900 font-medium mb-2"
+              >
+                Best Time to Tweet
+              </Typography>
+              <Typography variant="h4" className="text-gray-900 font-bold">
+                2:00 PM
+              </Typography>
+              <Typography variant="small" className="text-gray-600">
+                Weekdays
+              </Typography>
             </div>
-            <h5 className="font-medium text-gray-900 dark:text-white mb-2">
-              Best Time to Tweet
-            </h5>
-            <p className="text-lg font-bold text-gray-900 dark:text-white">
-              2:00 PM
-            </p>
-            <p className="text-sm text-gray-500 dark:text-gray-400">Weekdays</p>
-          </div>
-          <div className="text-center">
-            <div className="w-16 h-16 bg-green-100 dark:bg-green-900/20 rounded-full flex items-center justify-center mx-auto mb-3">
-              <TrendUp className="w-8 h-8 text-green-600 dark:text-green-400" />
+            <div className="text-center">
+              <div className="w-16 h-16 bg-green-100 rounded-full flex items-center justify-center mx-auto mb-4">
+                <TrendUp className="w-8 h-8 text-green-600" />
+              </div>
+              <Typography
+                variant="h6"
+                className="text-gray-900 font-medium mb-2"
+              >
+                Growth Rate
+              </Typography>
+              <Typography variant="h4" className="text-gray-900 font-bold">
+                +1.6%
+              </Typography>
+              <Typography variant="small" className="text-gray-600">
+                This month
+              </Typography>
             </div>
-            <h5 className="font-medium text-gray-900 dark:text-white mb-2">
-              Growth Rate
-            </h5>
-            <p className="text-lg font-bold text-gray-900 dark:text-white">
-              +1.6%
-            </p>
-            <p className="text-sm text-gray-500 dark:text-gray-400">
-              This month
-            </p>
-          </div>
-          <div className="text-center">
-            <div className="w-16 h-16 bg-purple-100 dark:bg-purple-900/20 rounded-full flex items-center justify-center mx-auto mb-3">
-              <Hash className="w-8 h-8 text-purple-600 dark:text-purple-400" />
+            <div className="text-center">
+              <div className="w-16 h-16 bg-purple-100 rounded-full flex items-center justify-center mx-auto mb-4">
+                <Hash className="w-8 h-8 text-purple-600" />
+              </div>
+              <Typography
+                variant="h6"
+                className="text-gray-900 font-medium mb-2"
+              >
+                Top Hashtag
+              </Typography>
+              <Typography variant="h4" className="text-gray-900 font-bold">
+                #marketing
+              </Typography>
+              <Typography variant="small" className="text-gray-600">
+                234 mentions
+              </Typography>
             </div>
-            <h5 className="font-medium text-gray-900 dark:text-white mb-2">
-              Top Hashtag
-            </h5>
-            <p className="text-lg font-bold text-gray-900 dark:text-white">
-              #marketing
-            </p>
-            <p className="text-sm text-gray-500 dark:text-gray-400">
-              234 mentions
-            </p>
-          </div>
-          <div className="text-center">
-            <div className="w-16 h-16 bg-red-100 dark:bg-red-900/20 rounded-full flex items-center justify-center mx-auto mb-3">
-              <Heart className="w-8 h-8 text-red-600 dark:text-red-400" />
+            <div className="text-center">
+              <div className="w-16 h-16 bg-red-100 rounded-full flex items-center justify-center mx-auto mb-4">
+                <Heart className="w-8 h-8 text-red-600" />
+              </div>
+              <Typography
+                variant="h6"
+                className="text-gray-900 font-medium mb-2"
+              >
+                Avg. Engagement
+              </Typography>
+              <Typography variant="h4" className="text-gray-900 font-bold">
+                3.2%
+              </Typography>
+              <Typography variant="small" className="text-gray-600">
+                Per tweet
+              </Typography>
             </div>
-            <h5 className="font-medium text-gray-900 dark:text-white mb-2">
-              Avg. Engagement
-            </h5>
-            <p className="text-lg font-bold text-gray-900 dark:text-white">
-              3.2%
-            </p>
-            <p className="text-sm text-gray-500 dark:text-gray-400">
-              Per tweet
-            </p>
           </div>
-        </div>
-      </div>
+        </CardBody>
+      </Card>
     </div>
   );
 };
