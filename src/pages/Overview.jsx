@@ -91,6 +91,7 @@ const Overview = () => {
         "Track post performance, engagement trends, and follower growth.",
       color: "blue",
       connected: false,
+      link: "https://web.facebook.com/?_rdc=1&_rdr#"
     },
     {
       name: "Instagram",
@@ -99,6 +100,7 @@ const Overview = () => {
         "Analyze post reach, story views, and optimal posting times. Don't miss",
       color: "purple",
       connected: false,
+      link: "https://www.instagram.com/accounts/login/?hl=en"
     },
     {
       name: "Twitter",
@@ -107,6 +109,7 @@ const Overview = () => {
         "Monitor tweet engagement, follower changes, and hashtag performance.",
       color: "blue",
       connected: false,
+      link:"https://x.com/i/flow/login?lang=en"
     },
     {
       name: "Gmail",
@@ -115,6 +118,7 @@ const Overview = () => {
         "Analyze email patterns, frequent senders, and response times.",
       color: "red",
       connected: false,
+      link: "https://accounts.google.com/v3/signin/identifier?hl=en-gb&ifkv=AdBytiNhfJpC5URBERbvqnakMwGjtGkXUJmQfjmJcm4366rZh4nHmTcFeEzQxF_jeFH7IysvRxIS&flowName=GlifWebSignIn&flowEntry=ServiceLogin&dsh=S2032366412%3A1750899472228190"
     },
   ];
 
@@ -205,13 +209,14 @@ const Overview = () => {
                   <Typography variant="small" className="text-gray-600 mb-4">
                     {platform.description}
                   </Typography>
+                  <a href={platform.link}>
                   <Button
                     className={`flex align-middle text-center justify-center w-full rounded-lg p-1 bg-${platform.color}-600 hover:bg-${platform.color}-700`}
                     size="sm"
                   >
                     <Plus className="w-4 h-4 mr-2" />
                     Connect
-                  </Button>
+                  </Button></a>
                 </CardBody>
               </Card>
             ))}
